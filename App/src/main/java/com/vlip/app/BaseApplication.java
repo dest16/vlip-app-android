@@ -12,13 +12,15 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.vlip.kit.ToastUtils;
+import com.tencent.map.geolocation.TencentLocationManager;
 import com.vlip.app.room.dao.CartDao;
 import com.vlip.app.room.database.AppDatabase;
+import com.vlip.kit.ToastUtils;
 
 
 /**
  * 全局应用
+ *
  * @author zm
  */
 public class BaseApplication extends Application {
@@ -176,6 +178,11 @@ public class BaseApplication extends Application {
 
     public CartDao getCartDao() {
         return AppDatabase.getInstance(this).getCartDao();
+    }
+
+    public TencentLocationManager getLocationManager() {
+
+        return TencentLocationManager.getInstance(this);
     }
 
     static {

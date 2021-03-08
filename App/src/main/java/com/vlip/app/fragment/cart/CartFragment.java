@@ -238,7 +238,7 @@ public class CartFragment extends BaseFragment<CartPresenter> implements CartVie
             mTotalLayout.setVisibility(View.GONE); // 隐藏底部合计布局
         }
         mCartAdapter.replaceAll(mCartItemTypeList);
-        getPresenter().queryGoodsByLike(mPage, Constants.LIMIT);
+//        getPresenter().queryGoodsByLike(mPage, Constants.LIMIT);
     }
 
     @Override

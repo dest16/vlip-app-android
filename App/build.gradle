@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.zss.mall"
+        applicationId "com.vlip.app"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
@@ -87,5 +87,7 @@ dependencies {
     //tencent map
     implementation 'com.tencent.map:tencent-map-vector-sdk:4.3.4'
     implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.6'
+
+    implementation 'pub.devrel:easypermissions:2.0.1'
 
 }

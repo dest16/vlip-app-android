@@ -31,4 +31,8 @@ public class Event {
     public static class ClearCacheEvent { //清理缓存
     }
 
+    public static class LocationEvent { //定位选择事件
+        public String location;
+    }
+
 } 
