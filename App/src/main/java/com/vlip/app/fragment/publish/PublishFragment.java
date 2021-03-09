@@ -1,28 +1,62 @@
 package com.vlip.app.fragment.publish;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
-import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
-import com.vlip.app.kit.AppUtils;
-import com.vlip.kit.DPUtils;
+import com.vlip.kit.ToastUtils;
 import com.vlip.ui.fragment.BaseFragment;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 购物车
  *
  * @author zm
  */
-public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishView {
+public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishView , EasyPermissions.PermissionCallbacks {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.toolbarTitle)
+    TextView mTitle;
+
+    CityPicker mCityPicker;
+
+    private final View.OnClickListener mTitleClickListener = view -> getPresenter().selectLocatedCity(mTitle.getText().toString());
+
+    private final OnPickListener mOnPickListener = new OnPickListener() {
+
+        @Override
+        public void onPick(int position, City data) {
+            mTitle.setText(data.getName());
+            mTitle.setTag(data);
+        }
+
+        @Override
+        public void onLocate() {
+            getPresenter().getCurrentLocation();
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+    };
 
     @Override
     public int getViewId() {
@@ -31,31 +65,14 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
-        int space = DPUtils.dp2px(getResources(), 10);
-        linearLayoutHelper.setBgColor(AppUtils.getColor(R.color.colorLine));
-        linearLayoutHelper.setMarginBottom(space);
-        linearLayoutHelper.setDividerHeight(DPUtils.dp2px(getResources(), 1));
+        mTitle.setOnClickListener(mTitleClickListener);
     }
 
     @Override
     public void initData() {
         setSupportEventBus();
         getPresenter().getCurrentLocation();
-//        if (getArguments() != null && getArguments().getBoolean(Constants.INTENT_KEY1, false)) {
-//            int space = DPUtils.dp2px(getResources(), 10);
-//            mToolbar.setContentInsetsRelative(space, space);
-//            mToolbar.setContentInsetStartWithNavigation(0);
-//            mToolbar.setNavigationIcon(com.vlip.ui.R.drawable.ic_left_arrow);
-//            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finish();
-//                }
-//            });
-//        }
-//        mToolbar.setTitle("购物车");
-//        getPresenter().queryAllCart();
+        mCityPicker = CityPicker.from(this).enableAnimation(true).setOnPickListener(mOnPickListener);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -80,7 +97,48 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
 
     @Override
-    public void setLocationCity(String city) {
-        mToolbar.setTitle(city);
+    public void showTitleCity(LocatedCity city) {
+        mTitle.setText(city.getName());
+        mTitle.setTag(city);
+//        mCityPicker.locateComplete(city, LocateState.SUCCESS);
+//        mCityPicker.locateComplete(new LocatedCity(c, p, cc), LocateState.SUCCESS);
+    }
+
+    @Override
+    public void updateLocatedCity(LocatedCity city) {
+        mCityPicker.locateComplete(city, LocateState.SUCCESS);
+    }
+
+    @Override
+    public void askPermission(String title, String... permissions) {
+        EasyPermissions.requestPermissions(this, title, 1, permissions);
+    }
+
+    @Override
+    public void showCityPick(String s) {
+        mCityPicker.show();
+    }
+
+    @Override
+    public void closeApp() {
+        finish();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        getPresenter().onPermissionRequest(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        ToastUtils.showToast("onPermissionsGranted");
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        ToastUtils.showToast("onPermissionsDenied");
     }
 }
