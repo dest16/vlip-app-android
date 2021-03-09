@@ -1,9 +1,6 @@
 package com.vlip.app.activity.home;
 
-import android.Manifest;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -11,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
@@ -27,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 
@@ -75,7 +69,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeVie
 
     @Override
     public void initData() {
-        requirePermission();
         setSupportEventBus();
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new PublishFragment());
@@ -133,33 +126,4 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeVie
 
     }
 
-    @AfterPermissionGranted(1)
-    private void requirePermission() {
-        String[] permissions = {
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        String[] permissionsForQ = {
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_BACKGROUND_LOCATION, //target为Q时，动态请求后台定位权限
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        if (Build.VERSION.SDK_INT >= 29 ? EasyPermissions.hasPermissions(this, permissionsForQ) :
-                EasyPermissions.hasPermissions(this, permissions)) {
-            Toast.makeText(this, "权限OK", Toast.LENGTH_LONG).show();
-        } else {
-            EasyPermissions.requestPermissions(this, "需要权限",
-                    1, Build.VERSION.SDK_INT >= 29 ? permissionsForQ : permissions);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 }

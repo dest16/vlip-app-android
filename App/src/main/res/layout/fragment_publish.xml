@@ -13,9 +13,16 @@
         android:background="?colorPrimaryDark"
         app:titleTextAppearance="@style/Toolbar.TitleTheme"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:logo="@drawable/ic_baseline_my_location_24"
         android:elevation="@dimen/dp_5"
-        tools:targetApi="lollipop" />
+        tools:targetApi="lollipop" >
+        <TextView
+            android:id = "@+id/toolbarTitle"
+            style = "@style/Toolbar.TitleTheme"
+            android:background = "?attr/selectableItemBackground"
+            android:layout_width = "wrap_content"
+            android:gravity = "center_vertical"
+            android:layout_height = "match_parent" />
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
