@@ -29,7 +29,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  *
  * @author zm
  */
-public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishView , EasyPermissions.PermissionCallbacks {
+public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishView, EasyPermissions.PermissionCallbacks {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.toolbarTitle)
@@ -97,11 +97,11 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
 
     @Override
-    public void showTitleCity(LocatedCity city) {
-        mTitle.setText(city.getName());
-        mTitle.setTag(city);
-//        mCityPicker.locateComplete(city, LocateState.SUCCESS);
-//        mCityPicker.locateComplete(new LocatedCity(c, p, cc), LocateState.SUCCESS);
+    public void setupTitleCity(LocatedCity city) {
+        if (mTitle.getText().length() == 0) {
+            mTitle.setText(city.getName());
+            mTitle.setTag(city);
+        }
     }
 
     @Override
@@ -135,10 +135,11 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
         ToastUtils.showToast("onPermissionsGranted");
+        getPresenter().getCurrentLocation();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        ToastUtils.showToast("onPermissionsDenied");
+        finish();
     }
 }

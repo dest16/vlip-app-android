@@ -11,8 +11,8 @@ import android.view.View;
 
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
-import com.vlip.app.fragment.cart.CartFragment;
 import com.vlip.app.fragment.me.MeFragment;
+import com.vlip.app.fragment.order2.OrderFragment2;
 import com.vlip.app.fragment.publish.PublishFragment;
 import com.vlip.ui.activity.base.BaseActivity;
 
@@ -42,7 +42,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeVie
             case R.id.navigation_home:
                 switchFragmentPosition(0);
                 return true;
-            case R.id.navigation_cart:
+            case R.id.navigation_order:
                 switchFragmentPosition(1);
                 return true;
             case R.id.navigation_me:
@@ -73,7 +73,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeVie
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new PublishFragment());
 //        mFragmentList.add(new GoodsFragment());
-        mFragmentList.add(new CartFragment());
+//        mFragmentList.add(new CartFragment());
+        mFragmentList.add(new OrderFragment2());
         mFragmentList.add(new MeFragment());
         switchFragmentPosition(0);
         BottomNavigationMenuView menuView = null;

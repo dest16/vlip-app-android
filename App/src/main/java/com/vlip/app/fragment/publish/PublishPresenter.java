@@ -48,7 +48,7 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
                 @Override
                 public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
                     LocatedCity city = new LocatedCity(tencentLocation.getCity(), tencentLocation.getProvince(), tencentLocation.getCityCode());
-                        getView().showTitleCity(city);
+                        getView().setupTitleCity(city);
                         getView().updateLocatedCity(city);
                     getModel().stopQueryCurrentLocation(this);
                 }
@@ -62,26 +62,6 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
             getView().askPermission("定位需要开启以下权限", permissions);
         }
 
-    }
-
-    void onPermissionRequest(int requestCode, String[] permissions, int[] grantResults) {
-//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, new EasyPermissions.PermissionCallbacks() {
-//            @Override
-//            public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-//                getCurrentLocation();
-//            }
-//
-//            @Override
-//            public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-//                //closeApp
-//                getView().closeApp();
-//            }
-//
-//            @Override
-//            public void onRequestPermissionsResult(int i, @NonNull String[] strings, @NonNull int[] ints) {
-//
-//            }
-//        });
     }
 
 

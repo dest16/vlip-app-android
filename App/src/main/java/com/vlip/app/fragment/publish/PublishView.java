@@ -5,7 +5,7 @@ import com.zaaach.citypicker.model.LocatedCity;
 
 public interface PublishView extends BaseView {
 
-    void showTitleCity(LocatedCity city);
+    void setupTitleCity(LocatedCity city);
 
     void updateLocatedCity(LocatedCity city);
 
