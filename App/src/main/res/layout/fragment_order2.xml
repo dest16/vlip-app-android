@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         android:background="?colorPrimaryDark"
+        app:title="订单列表"
         android:elevation="@dimen/dp_5"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:titleTextAppearance="@style/Toolbar.TitleTheme"
