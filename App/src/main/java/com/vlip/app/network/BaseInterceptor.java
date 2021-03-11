@@ -106,7 +106,8 @@ public class BaseInterceptor {
             Member member = AppUtils.getMember();
             if (member != null) {
                 mHeaderMap = new HashMap<>();
-                mHeaderMap.put("token", member.token);
+//                mHeaderMap.put("token", member.token);
+                mHeaderMap.put("Authorization", member.token);
             }
             return mHeaderMap;
         }

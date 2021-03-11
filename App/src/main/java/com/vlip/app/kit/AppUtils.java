@@ -1,12 +1,10 @@
 package com.vlip.app.kit;
 
+import android.content.res.AssetManager;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.vlip.kit.BigDecimalUtils;
-import com.vlip.kit.FastjsonUtils;
-import com.vlip.kit.SPUtils;
 import com.vlip.app.BaseApplication;
 import com.vlip.app.Constants;
 import com.vlip.app.bean.Event;
@@ -14,9 +12,15 @@ import com.vlip.app.bean.Member;
 import com.vlip.app.bean.SpecificationItem;
 import com.vlip.app.bean.SpecificationValue;
 import com.vlip.app.network.GlideApp;
+import com.vlip.kit.BigDecimalUtils;
+import com.vlip.kit.FastjsonUtils;
+import com.vlip.kit.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -131,4 +135,22 @@ public class AppUtils {
         GlideApp.with(BaseApplication.getInstance()).load(Constants.getImageUrl() + url).centerCrop().into(image);
     }
 
+    public static String readAssetsText(String fileName){
+        StringBuilder stringBuilder = new StringBuilder();
+        //获得assets资源管理器
+        AssetManager assetManager = BaseApplication.getInstance().getAssets();
+        //使用IO流读取json文件内容
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName),"utf-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
 }

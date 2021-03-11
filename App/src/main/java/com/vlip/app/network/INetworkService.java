@@ -17,11 +17,10 @@ import retrofit2.http.QueryMap;
  */
 public interface INetworkService {
 
-    @POST("login")
-    Observable<ResultBean> login(@Body Map<String, Object> params);
-
     @POST("admin/login")
-    Observable<ResultBean> login1(@Body Map<String, Object> params);
+    Observable<ResultBean> login(@Body Map<String, Object> params);
+    @GET("admin/info") //获取当前登录用户信息
+    Observable<ResultBean> info();
 
     @GET("queryTreeCategory")
     Observable<ResultBean> queryTreeCategory(@QueryMap Map<String, Object> params);

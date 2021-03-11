@@ -3,4 +3,6 @@
     <string name="title_home">首页</string>
     <string name="title_order">订单</string>
     <string name="title_me">我的</string>
+
+<!--    <string name="cars_json">[{"name":"小型面包","image":"file:///android_asset/image/car1","load":"800公斤","lwh":"1.8*1.3*1.2m","volume":"2.8方"},{"name":"中型面包","image":"file:///android_asset/image/car2","load":"1.2吨","lwh":"2.7*1.4*1.2m","volume":"4.5方"},{"name":"依维柯","image":"file:///android_asset/image/car3","load":"1.5吨","lwh":"2.7*1.8*1.7m","volume":"8.3方"},{"name":"小型平板","image":"file:///android_asset/image/car4","load":"1.5吨","lwh":"2.7*1.5*1.7m","volume":"6.9方"},{"name":"小型厢货","image":"file:///android_asset/image/car5","load":"1.5吨","lwh":"2.7*1.5*1.7m","volume":"6.9方"},{"name":"大型平板","image":"file:///android_asset/image/car6","load":"1.8吨","lwh":"4.2*2*1.8m","volume":"15.1方"},{"name":"中型厢货","image":"file:///android_asset/image/car7","load":"1.8吨","lwh":"4.2*2*1.8m","volume":"15.1方"}]</string>-->
 </resources>

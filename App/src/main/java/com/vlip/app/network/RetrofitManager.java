@@ -74,7 +74,7 @@ public class RetrofitManager {
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
         builder.cache(cache);
 
-        //有网络缓存拦截，20秒内的请求，获取本地的缓存。
+        //token处理，有网络缓存拦截，20秒内的请求，获取本地的缓存。
 
         builder.addNetworkInterceptor(new BaseInterceptor.CommonNetworkCache(INetwork.HTTP_NETWORK_CACHE_TIME));
 

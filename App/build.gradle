@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -90,5 +91,5 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:2.0.1'
     implementation 'com.zaaach:citypicker:2.0.3'
-
+    implementation 'com.android.support:multidex:1.0.3'
 }

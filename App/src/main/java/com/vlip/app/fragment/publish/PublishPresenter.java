@@ -17,23 +17,6 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
         super(mModel, mView);
     }
 
-    //    void queryTreeCategory() {
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("parentId", "1");
-//        getModel().getTreeCategory(params, new BaseResponse() {
-//            @Override
-//            public void onSuccess(ResultBean bean) {
-//                JSONObject data = bean.getJSONObject();
-//                String jsonList = data.optString("list");
-//                List<GoodsCategory> categoryList = FastjsonUtils.toList(jsonList, GoodsCategory.class);
-////                getView().setCategoryTitle(categoryList);
-//            }
-//            @Override
-//            public void onError(String errMsg) {
-//
-//            }
-//        });
-//    }
 
     @AfterPermissionGranted(1)
     void getCurrentLocation() {

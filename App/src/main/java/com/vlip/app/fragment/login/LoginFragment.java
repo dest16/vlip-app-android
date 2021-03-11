@@ -2,6 +2,7 @@ package com.vlip.app.fragment.login;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.vlip.app.R;
 import com.vlip.app.activity.home.HomeActivity;
@@ -20,6 +21,9 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.password)
     RowInputEdit mPassword;
 
+    @BindView(R.id.photo)
+    ImageView photo;
+
     @Override
     public int getViewId() {
         return R.layout.fragment_login;
@@ -33,7 +37,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void initData() {
         getToolbar().setTitle("登录");
-        mMobile.setText("admin");
+        mMobile.setText("13972608888");
         mPassword.setText("6}K_^^:!x");
     }
 

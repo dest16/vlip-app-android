@@ -30,24 +30,22 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
 
     void login(String mobile, String password) {
         Map<String, Object> params = new HashMap<>();
-//        params.put("mobile", mobile);
-//        params.put("password", password);//
         params.put("username", mobile);
         params.put("password", password);
         getModel().login(params, new BaseResponse() {
             @Override
             public void onSuccess(ResultBean bean) {
                 JSONObject data = bean.getJSONObject();
-//                String expire = data.optString("expire");
+                String expire = data.optString("expiration");
                 String token = data.optString("token");
                 String tokenHead = data.optString("tokenHead"); //token拼接串头部
-                token = tokenHead + " " + token;
+                token = tokenHead +  token;
 //                JSONObject jsonMember = data.optJSONObject("member");
 //                String memberId = jsonMember.optString("id");
 //                String mobile = jsonMember.optString("mobile");
 //                String sn = jsonMember.optString("sn");
                 Member member = new Member();
-//                member.expire = expire;
+                member.expire = expire;
                 member.token = token;
 //                member.memberId = memberId;
                 member.mobile = mobile;
