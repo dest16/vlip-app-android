@@ -42,8 +42,8 @@ public class OrderFragment extends BaseFragment<OrderPresenter> implements Order
 
     @Override
     public void initData() {
-//        assert getArguments() != null;
-//        getToolbar().setTitle("我的订单");
+        assert getArguments() != null;
+        getToolbar().setTitle("我的订单");
         mTitleList.add("待付款");
         mTitleList.add("待发货");
         mTitleList.add("待收货");

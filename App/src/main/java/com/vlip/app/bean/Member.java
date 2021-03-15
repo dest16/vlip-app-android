@@ -5,6 +5,8 @@ public class Member {
 
     public String memberId;
 
+    public String image;
+
     public String expire;
 
     public String token;

@@ -15,6 +15,7 @@ import com.vlip.app.fragment.order.OrderFragment;
 import com.vlip.app.fragment.personal_center.PersonalCenterFragment;
 import com.vlip.app.fragment.setting.SettingFragment;
 import com.vlip.app.kit.AppUtils;
+import com.vlip.app.network.GlideApp;
 import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.mvp.IPresenter;
@@ -129,6 +130,7 @@ public class MeFragment extends BaseFragment {
     public void onEvent(Event.LoginEvent event) {
         Member member = AppUtils.getMember();
         if (member != null) {
+            GlideApp.with(this).load(member.image).into(mPhoto);
             mGoLogin.setText(AppUtils.formatPhone(member.mobile));
         } else {
             mGoLogin.setText("登录/注册 >");

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -174,5 +175,10 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
         finish();
+    }
+
+    @OnClick(R.id.submit)
+    public void onClick() {
+
     }
 }

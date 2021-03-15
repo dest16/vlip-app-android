@@ -10,6 +10,7 @@ import com.vlip.app.R;
 import com.vlip.app.bean.Event;
 import com.vlip.app.bean.Member;
 import com.vlip.app.fragment.login.LoginFragment;
+import com.vlip.app.fragment.order_list.OrderListFragment;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.adapter.viewpager.BaseFragmentPagerAdapter;
@@ -56,19 +57,19 @@ public class OrderFragment2 extends BaseFragment<OrderPresenter2> implements Ord
         onEvent(new Event.LoginEvent());
 //        assert getArguments() != null;
 //        getToolbar().setTitle("我的订单");
-//        mTitleList.add("待付款");
-//        mTitleList.add("待发货");
-//        mTitleList.add("待收货");
-//        mTitleList.add("已完成");
-//        mFragmentList.add(OrderListFragment.newInstance(1));
-//        mFragmentList.add(OrderListFragment.newInstance(2));
-//        mFragmentList.add(OrderListFragment.newInstance(3));
-//        mFragmentList.add(OrderListFragment.newInstance(4));
-//        mAdapter.setFragment(mTitleList, mFragmentList);
-//        mViewPager.setOffscreenPageLimit(mFragmentList.size());
-////        int item = getArguments().getInt(Constants.INTENT_KEY1, 0);
-////        mViewPager.setCurrentItem(item, false);
-//        mViewPager.setCurrentItem(0, false);
+        mTitleList.add("待付款");
+        mTitleList.add("待发货");
+        mTitleList.add("待收货");
+        mTitleList.add("已完成");
+        mFragmentList.add(OrderListFragment.newInstance(1));
+        mFragmentList.add(OrderListFragment.newInstance(2));
+        mFragmentList.add(OrderListFragment.newInstance(3));
+        mFragmentList.add(OrderListFragment.newInstance(4));
+        mAdapter.setFragment(mTitleList, mFragmentList);
+        mViewPager.setOffscreenPageLimit(mFragmentList.size());
+//        int item = getArguments().getInt(Constants.INTENT_KEY1, 0);
+//        mViewPager.setCurrentItem(item, false);
+        mViewPager.setCurrentItem(0, false);
 
     }
 
@@ -97,6 +98,9 @@ public class OrderFragment2 extends BaseFragment<OrderPresenter2> implements Ord
         Member member = AppUtils.getMember();
         if (member != null) {
 //            mGoLogin.setText(AppUtils.formatPhone(member.mobile));
+            mTabLayout.setVisibility(View.VISIBLE);
+            mViewPager.setVisibility(View.VISIBLE);
+            mLogin.setVisibility(View.GONE);
         } else {
             mTabLayout.setVisibility(View.GONE);
             mViewPager.setVisibility(View.GONE);

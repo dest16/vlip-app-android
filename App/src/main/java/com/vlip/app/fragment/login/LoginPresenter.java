@@ -9,7 +9,6 @@ import com.vlip.app.network.BaseResponse;
 import com.vlip.app.room.entity.Cart;
 import com.vlip.ui.mvp.base.BasePresenter;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
@@ -38,6 +37,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                 JSONObject data = bean.getJSONObject();
                 String expire = data.optString("expiration");
                 String token = data.optString("token");
+                String imageUrl = data.optString("user.icon");
                 String tokenHead = data.optString("tokenHead"); //token拼接串头部
                 token = tokenHead +  token;
 //                JSONObject jsonMember = data.optJSONObject("member");
@@ -47,6 +47,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                 Member member = new Member();
                 member.expire = expire;
                 member.token = token;
+                member.image = imageUrl;
 //                member.memberId = memberId;
                 member.mobile = mobile;
 //                member.sn = sn;
