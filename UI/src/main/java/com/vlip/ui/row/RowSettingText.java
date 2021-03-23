@@ -140,6 +140,7 @@ public class RowSettingText extends ConstraintLayout implements IRow {
     }
 
     public void setSummary(CharSequence text) {
+        mSummary.setVisibility(VISIBLE);
         mSummary.setText(text);
     }
 

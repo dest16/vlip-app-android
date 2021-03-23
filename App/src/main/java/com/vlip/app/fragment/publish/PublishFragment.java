@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.vlip.app.R;
+import com.vlip.app.activity.located.LocatedActivity;
 import com.vlip.app.bean.Car;
 import com.vlip.app.bean.Event;
 import com.vlip.app.fragment.car.CarFragment;
@@ -177,8 +178,16 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
         finish();
     }
 
-    @OnClick(R.id.submit)
-    public void onClick() {
-
+    @OnClick({R.id.submit, R.id.from, R.id.to})
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.submit:
+                break;
+            case R.id.from:
+            case R.id.to:
+                goIntent(LocatedActivity.class);
+                break;
+        }
+//        ToolbarFragmentActivity.createFragment(requireContext(), SupportMapFragment.class);
     }
 }

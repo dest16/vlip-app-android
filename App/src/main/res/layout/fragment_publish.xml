@@ -26,34 +26,73 @@
             android:gravity="center_vertical" />
     </android.support.v7.widget.Toolbar>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
+    <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable" />
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="@dimen/dp_5">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_150" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/from"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80" />
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="在哪儿装货" />
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="@dimen/dp_5">
 
-    <TextView
-        android:id="@+id/to"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="送去哪儿" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/submit"
-        style="@style/AppTheme.Button.Primary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10" />
+
+            <com.vlip.ui.row.RowSettingText
+                android:id="@+id/from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                app:rst_leftImage="@drawable/point_green"
+                app:rst_summary="填写发货地点"
+                app:rst_title="从哪儿" />
+
+            <com.vlip.ui.row.RowSettingText
+                android:id="@+id/to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                app:rst_leftImage="@drawable/point_red"
+                app:rst_summary="填写收获地点"
+                app:rst_title="送去哪儿" />
+
+            <Button
+                android:id="@+id/submit"
+                style="@style/AppTheme.Button.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:text="提交" />
+        </LinearLayout>
+
+    </android.support.design.card.MaterialCardView>
+
 </LinearLayout>
