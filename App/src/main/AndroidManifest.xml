@@ -64,8 +64,8 @@
             android:configChanges="orientation|screenSize" />
         <activity
             android:name="com.vlip.app.activity.located.LocatedActivity"
-            android:theme="@style/DefaultCityPickerTheme"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize" />
 
         <activity
