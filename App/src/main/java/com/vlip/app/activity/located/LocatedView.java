@@ -1,15 +1,8 @@
 package com.vlip.app.activity.located;
 
+import com.tencent.tencentmap.mapsdk.maps.LocationSource;
 import com.vlip.ui.mvp.base.BaseView;
 
-public class LocatedView implements BaseView {
-    @Override
-    public void showLoading() {
+public interface LocatedView extends BaseView, LocationSource {
 
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
 }
