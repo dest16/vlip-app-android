@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.amap.api.location.AMapLocationClient;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -13,7 +14,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.tencent.map.geolocation.TencentLocationManager;
 import com.vlip.app.room.dao.CartDao;
 import com.vlip.app.room.database.AppDatabase;
 import com.vlip.kit.ToastUtils;
@@ -27,6 +27,7 @@ import com.vlip.kit.ToastUtils;
 public class BaseApplication extends Application {
 
     private static BaseApplication instance;
+    private AMapLocationClient aMapLocationClient;
 
     public static BaseApplication getInstance() {
         return instance;
@@ -182,9 +183,13 @@ public class BaseApplication extends Application {
         return AppDatabase.getInstance(this).getCartDao();
     }
 
-    public TencentLocationManager getLocationManager() {
+    public AMapLocationClient getLocationClient() {
+        if (null == aMapLocationClient) {
 
-        return TencentLocationManager.getInstance(this);
+            return new AMapLocationClient(this);
+        } else {
+            return aMapLocationClient;
+        }
     }
 
     static {

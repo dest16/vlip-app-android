@@ -2,8 +2,8 @@ package com.vlip.app.fragment.publish;
 
 import android.Manifest;
 
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
 import com.vlip.ui.mvp.base.BasePresenter;
 import com.zaaach.citypicker.model.LocatedCity;
@@ -27,18 +27,13 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
         if (EasyPermissions.hasPermissions(BaseApplication.getInstance(), permissions)) {
-            getModel().startQueryCurrentLocation(new TencentLocationListener() {
+            getModel().startQueryCurrentLocation(new AMapLocationListener() {
                 @Override
-                public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-                    LocatedCity city = new LocatedCity(tencentLocation.getCity(), tencentLocation.getProvince(), tencentLocation.getCityCode());
-                        getView().setupTitleCity(city);
-                        getView().updateLocatedCity(city);
+                public void onLocationChanged(AMapLocation aMapLocation) {
+                    LocatedCity city = new LocatedCity(aMapLocation.getCity(), aMapLocation.getProvince(), aMapLocation.getCityCode());
+                    getView().setupTitleCity(city);
+                    getView().updateLocatedCity(city);
                     getModel().stopQueryCurrentLocation(this);
-                }
-
-                @Override
-                public void onStatusUpdate(String s, int i, String s1) {
-
                 }
             });
         } else {

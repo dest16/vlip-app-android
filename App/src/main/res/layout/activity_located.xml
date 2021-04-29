@@ -19,17 +19,26 @@
         app:titleTextAppearance="@style/Toolbar.TitleTheme"
         tools:targetApi="lollipop" />
 
-    <FrameLayout
-        android:id="@+id/frame_map"
+    <com.amap.api.maps.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBg" />
+
+    <ImageButton
+        android:id="@+id/fix_located"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        app:layout_constraintBottom_toTopOf="@+id/card"
+        app:layout_constraintEnd_toEndOf="@+id/map_view"
+        app:srcCompat="@drawable/ic_baseline_my_location_24" />
 
     <android.support.design.card.MaterialCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_10"
+        android:layout_margin="@dimen/dp_6"
         app:cardCornerRadius="@dimen/dp_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +49,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-            <com.vlip.ui.row.RowInputEdit
-                android:id="@+id/from"
+            <com.vlip.ui.row.RowSettingText
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_16" />
+                app:rst_summary="xxx"
+                app:rst_title="车辆管理" />
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:re_hint="地址备注"
+                app:re_input_type="text" />
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:re_hint="联系人"
+                app:re_input_type="text" />
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:re_hint="联系电话"
+                app:re_input_type="text" />
 
             <Button
                 android:id="@+id/submit"
@@ -57,5 +87,6 @@
         </LinearLayout>
 
     </android.support.design.card.MaterialCardView>
+
 
 </android.support.constraint.ConstraintLayout>

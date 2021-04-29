@@ -2,8 +2,8 @@ package com.vlip.app.activity.located;
 
 import android.location.Location;
 
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.vlip.ui.mvp.base.BasePresenter;
 
 public class LocatedPresenter extends BasePresenter<LocatedModel,LocatedView> {
@@ -15,27 +15,21 @@ public class LocatedPresenter extends BasePresenter<LocatedModel,LocatedView> {
     }
 
     public void getCurrentLocation(){
-        getModel().startQueryCurrentLocation(new TencentLocationListener() {
+        getModel().startQueryCurrentLocation(new AMapLocationListener() {
             @Override
-            public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
-                if(i == TencentLocation.ERROR_OK ){
-                    Location location = new Location(tencentLocation.getProvider());
-                    //设置经纬度
-                    location.setLatitude(tencentLocation.getLatitude());
-                    location.setLongitude(tencentLocation.getLongitude());
-                    //设置精度，这个值会被设置为定位点上表示精度的圆形半径
-                    location.setAccuracy(tencentLocation.getAccuracy());
-                    //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
-                    location.setBearing((float) tencentLocation.getBearing());
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if(aMapLocation.getErrorCode() == 0 ){
+                    Location location = new Location(aMapLocation.getProvider());
+                    //设置经纬度以及精度
+                    location.setLatitude(aMapLocation.getLatitude());
+                    location.setLongitude(aMapLocation.getLongitude());
+                    location.setAccuracy(aMapLocation.getAccuracy());
+//                    LatLng latLng = new LatLng(tencentLocation.getLatitude(), tencentLocation.getLongitude());
+//                    addMarker(latLng);
                     //将位置信息返回给地图
 //                    locationChangedListener.onLocationChanged(location);
-
+                    getView().updateLocation(location);
                 }
-            }
-
-            @Override
-            public void onStatusUpdate(String s, int i, String s1) {
-
             }
         });
     }

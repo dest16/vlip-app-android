@@ -71,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
         android:background="@color/colorLine"
         app:layout_constraintBottom_toBottomOf="parent" />
 
