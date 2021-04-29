@@ -29,7 +29,7 @@
         android:id="@+id/fix_located"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_6"
         app:layout_constraintBottom_toTopOf="@+id/card"
         app:layout_constraintEnd_toEndOf="@+id/map_view"
         app:srcCompat="@drawable/ic_baseline_my_location_24" />

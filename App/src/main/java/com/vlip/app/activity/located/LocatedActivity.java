@@ -12,16 +12,25 @@ import com.amap.api.maps.model.CustomMapStyleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.vlip.app.R;
+import com.vlip.kit.ToastUtils;
 import com.vlip.ui.activity.base.BaseActivity;
+import com.vlip.ui.row.RowSettingText;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LocatedActivity extends BaseActivity<LocatedPresenter> implements LocatedView, AMap.OnMyLocationChangeListener {
+public class LocatedActivity extends BaseActivity<LocatedPresenter> implements LocatedView {
     @BindView(R.id.map_view)
     MapView mMapView;
+    @BindView(R.id.address)
+    RowSettingText mAdress;
+
     private AMap mAmap;
     private Location current;
+
+    private final AMap.OnMyLocationChangeListener mOnMyLocationChangeListener = location -> {
+        ToastUtils.showToast(location.toString());
+    };
 
     @Override
     public int getViewId() {
@@ -47,7 +56,7 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
 //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         mAmap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        mAmap.addOnMyLocationChangeListener(this);
+        mAmap.addOnMyLocationChangeListener(mOnMyLocationChangeListener);
     }
 
     @Override
@@ -112,16 +121,9 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
     }
 
-    @Override
-    public void updateLocation(Location location) {
-
-    }
 
     @Override
-    public void onMyLocationChange(Location location) {
-        if (current == null) {
-            mAmap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-        }
-        current = location;
+    public void updateAddress(Location location) {
+
     }
 }

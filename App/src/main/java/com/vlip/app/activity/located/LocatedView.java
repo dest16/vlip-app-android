@@ -5,5 +5,5 @@ import android.location.Location;
 import com.vlip.ui.mvp.base.BaseView;
 
 public interface LocatedView extends BaseView {
-    public void updateLocation(Location location);
+    public void updateAddress(Location location);
 }

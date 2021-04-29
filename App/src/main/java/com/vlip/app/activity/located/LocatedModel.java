@@ -27,4 +27,8 @@ public class LocatedModel extends BaseModel {
             client.stopLocation();
         }
     }
+
+    void queryAddressInfoByPoi() {
+
+    }
 }
