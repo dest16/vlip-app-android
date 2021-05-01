@@ -1,9 +1,17 @@
 package com.vlip.app.activity.located;
 
+import android.location.Location;
+
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.vlip.app.BaseApplication;
+import com.vlip.app.network.AmapManager;
 import com.vlip.ui.mvp.base.BaseModel;
 
 public class LocatedModel extends BaseModel {
@@ -28,7 +36,8 @@ public class LocatedModel extends BaseModel {
         }
     }
 
-    void queryAddressInfoByPoi() {
+    void queryAddressInfoByPoi(RegeocodeQuery query) {
+        AmapManager.getInstance().mGeocodeSearch.getFromLocationAsyn(query);
 
     }
 }
