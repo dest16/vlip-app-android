@@ -35,6 +35,7 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
             }
         });
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);
+        query.setExtensions("all");
         search.getFromLocationAsyn(query);
     }
 

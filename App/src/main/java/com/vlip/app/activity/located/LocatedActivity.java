@@ -58,8 +58,10 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
         @Override
         public void onCameraChangeFinish(CameraPosition cameraPosition) {
-            if (locationMarker!=null)
-            getPresenter().getAddressInfo(new LatLonPoint(locationMarker.getPosition().latitude, locationMarker.getPosition().longitude));
+            if (locationMarker != null) {
+                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
+                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
+            }
         }
     };
 
@@ -163,8 +165,12 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     @Override
     public void updateAddress(RegeocodeAddress address) {
         Log.d("RegeocodeAddress", FastjsonUtils.toString(address));
-        mAdress.setTitle(address.getFormatAddress());
-        mAdress.setSummary(address.getTownship());
+        if (address.getAois().size() > 0) {
+            mAdress.setTitle(address.getAois().get(0).getAoiName());
+        } else {
+            mAdress.setTitle(address.getPois().get(0).getTitle());
+        }
+        mAdress.setSummary(address.getStreetNumber().getStreet());
     }
 
     @Override
@@ -190,7 +196,7 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         LatLng latLng = fixPoi(mAmap.getCameraPosition().target);
         Point screenPosition = mAmap.getProjection().toScreenLocation(latLng);
         locationMarker = mAmap.addMarker(new MarkerOptions()
-                .anchor(0.5f, 0.5f)
+                .anchor(0.5f, 0.6f)
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pin_start_128)));
         //设置Marker在屏幕上,不跟随地图移动
         locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
