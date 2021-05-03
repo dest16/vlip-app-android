@@ -22,23 +22,15 @@
     <com.amap.api.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBg" />
-
-    <ImageButton
-        android:id="@+id/fix_located"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dp_6"
+        android:layout_height="0dp"
+        android:background="@color/colorBg"
         app:layout_constraintBottom_toTopOf="@+id/card"
-        app:layout_constraintEnd_toEndOf="@+id/map_view"
-        app:srcCompat="@drawable/ic_baseline_my_location_24" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <android.support.design.card.MaterialCardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_6"
         app:cardCornerRadius="@dimen/dp_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

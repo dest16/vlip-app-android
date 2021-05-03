@@ -13,12 +13,14 @@ import com.vlip.app.R;
 import com.vlip.app.activity.located.LocatedActivity;
 import com.vlip.app.bean.Car;
 import com.vlip.app.bean.Event;
+import com.vlip.app.bean.Position;
 import com.vlip.app.fragment.car.CarFragment;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.kit.FastjsonUtils;
 import com.vlip.kit.ToastUtils;
 import com.vlip.ui.adapter.viewpager.BaseFragmentPagerAdapter;
 import com.vlip.ui.fragment.BaseFragment;
+import com.vlip.ui.row.RowSettingText;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -49,7 +51,10 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     ViewPager mViewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTab;
-
+    @BindView(R.id.from)
+    RowSettingText fromView;
+    @BindView(R.id.to)
+    RowSettingText toView;
     BaseFragmentPagerAdapter mAdapter;
     CityPicker mCityPicker;
 
@@ -180,8 +185,11 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
     @OnClick({R.id.submit, R.id.from, R.id.to})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.submit:
+                Position from = (Position) fromView.getTag();
+                Position to = (Position) toView.getTag();
+                getPresenter().publishCargo(from, to, mCarList.get(mViewPager.getCurrentItem()).name);
                 break;
             case R.id.from:
             case R.id.to:

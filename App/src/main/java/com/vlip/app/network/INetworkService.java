@@ -1,5 +1,6 @@
 package com.vlip.app.network;
 
+import com.vlip.app.bean.Cargo;
 import com.vlip.app.bean.ResultBean;
 
 import java.util.Map;
@@ -13,12 +14,19 @@ import retrofit2.http.QueryMap;
 
 /**
  * 网络服务接口
+ *
  * @author zm
  */
 public interface INetworkService {
 
     @POST("admin/login")
     Observable<ResultBean> login(@Body Map<String, Object> params);
+
+    @GET("city/list")
+    Observable<ResultBean> queryCities(@QueryMap Map<String, Object> params);
+
+    @POST("")
+    Observable<ResultBean> publishGoods(@Body Cargo cargo);
 
     @GET("queryTreeCategory")
     Observable<ResultBean> queryTreeCategory(@QueryMap Map<String, Object> params);

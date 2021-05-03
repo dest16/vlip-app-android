@@ -5,6 +5,10 @@ import android.Manifest;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
+import com.vlip.app.bean.Cargo;
+import com.vlip.app.bean.Position;
+import com.vlip.app.bean.ResultBean;
+import com.vlip.app.network.BaseResponse;
 import com.vlip.ui.mvp.base.BasePresenter;
 import com.zaaach.citypicker.model.LocatedCity;
 
@@ -48,5 +52,23 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
         getCurrentLocation();
     }
 
+    void publishCargo(Position from, Position to, String carType) {
+        Cargo cargo = new Cargo();
+        cargo.from = from;
+        cargo.to = to;
+        cargo.carType = carType;
+        getModel().queryPublishGoods(cargo, new BaseResponse() {
+            @Override
+            public void onSuccess(ResultBean bean) {
+
+
+            }
+
+            @Override
+            public void onError(String errMsg) {
+
+            }
+        });
+    }
 
 }

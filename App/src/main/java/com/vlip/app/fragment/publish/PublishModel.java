@@ -4,8 +4,15 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
+import com.vlip.app.bean.Cargo;
+import com.vlip.app.network.BaseResponse;
+import com.vlip.app.network.RetrofitManager;
 import com.vlip.ui.mvp.base.BaseModel;
 
+import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import pub.devrel.easypermissions.EasyPermissions;
 
 class PublishModel extends BaseModel {
@@ -37,4 +44,10 @@ class PublishModel extends BaseModel {
     }
 
 
+    void queryPublishGoods(Cargo cargo, BaseResponse observer) {
+        RetrofitManager.getInstance().mNetwrokService.publishGoods(cargo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

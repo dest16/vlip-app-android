@@ -1,18 +1,19 @@
 package com.vlip.app.activity.located;
 
 import android.location.Location;
-import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.vlip.app.BaseApplication;
+import com.vlip.app.bean.Site;
 import com.vlip.ui.mvp.base.BasePresenter;
+
+import java.util.List;
 
 public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
 
@@ -57,5 +58,11 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
                 }
             }
         });
+    }
+
+
+    public void getSiteMarkets() {
+        List<Site> list = Site.list();
+        getView().updateMarkers(list);
     }
 }

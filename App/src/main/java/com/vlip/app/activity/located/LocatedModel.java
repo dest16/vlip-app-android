@@ -40,4 +40,8 @@ public class LocatedModel extends BaseModel {
         AmapManager.getInstance().mGeocodeSearch.getFromLocationAsyn(query);
 
     }
+
+    void queryMarkets(){
+
+    }
 }

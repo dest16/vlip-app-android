@@ -16,6 +16,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.CustomMapStyleOptions;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
@@ -25,10 +26,17 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.vlip.app.R;
+import com.vlip.app.bean.Site;
+import com.vlip.kit.DPUtils;
 import com.vlip.kit.FastjsonUtils;
 import com.vlip.kit.ToastUtils;
 import com.vlip.ui.activity.base.BaseActivity;
 import com.vlip.ui.row.RowSettingText;
+
+import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,14 +46,16 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     MapView mMapView;
     @BindView(R.id.address)
     RowSettingText mAdress;
-
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private AMap mAmap;
     private Location current;
-    private Marker locationMarker;
+    private List<Marker> mMarkers = new ArrayList<>();
+    private List<Site> mSites;
 
     private final AMap.OnMyLocationChangeListener mOnMyLocationChangeListener = location -> {
         if (current == null) {
-            moveMap(location);
+//            moveMap(location);
             getPresenter().getAddressInfo(new LatLonPoint(location.getLatitude(), location.getLongitude()));
         }
         current = location;
@@ -58,10 +68,10 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
         @Override
         public void onCameraChangeFinish(CameraPosition cameraPosition) {
-            if (locationMarker != null) {
-                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
-                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
-            }
+//            if (locationMarker != null) {
+//                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
+//                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
+//            }
         }
     };
 
@@ -72,6 +82,16 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        int space = DPUtils.dp2px(getResources(), 10);
+        mToolbar.setContentInsetsRelative(space, space);
+        mToolbar.setContentInsetStartWithNavigation(0);
+        mToolbar.setNavigationIcon(com.vlip.ui.R.drawable.ic_left_arrow);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mMapView.onCreate(savedInstanceState);
         if (mAmap == null)
             mAmap = mMapView.getMap();
@@ -94,7 +114,9 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
-                addMarkerInScreenCenter();
+//                addMarkerInScreenCenter();
+//                markerOverlay = new MarkerOverlay(mAmap, )
+                getPresenter().getSiteMarkets();
             }
         });
     }
@@ -106,17 +128,12 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
     @Override
     public void initData() {
-
     }
 
-    @OnClick({R.id.submit, R.id.fix_located})
+    @OnClick({R.id.submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.submit:
-                break;
-            case R.id.fix_located:
-                if (current != null)
-                    moveMap(current);
                 break;
         }
     }
@@ -164,13 +181,13 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
     @Override
     public void updateAddress(RegeocodeAddress address) {
-        Log.d("RegeocodeAddress", FastjsonUtils.toString(address));
-        if (address.getAois().size() > 0) {
-            mAdress.setTitle(address.getAois().get(0).getAoiName());
-        } else {
-            mAdress.setTitle(address.getPois().get(0).getTitle());
-        }
-        mAdress.setSummary(address.getStreetNumber().getStreet());
+//        Log.d("RegeocodeAddress", FastjsonUtils.toString(address));
+//        if (address.getAois().size() > 0) {
+//            mAdress.setTitle(address.getAois().get(0).getAoiName());
+//        } else {
+//            mAdress.setTitle(address.getPois().get(0).getTitle());
+//        }
+//        mAdress.setSummary(address.getStreetNumber().getStreet());
     }
 
     @Override
@@ -178,34 +195,78 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.animateCamera(CameraUpdateFactory.changeLatLng(new LatLng(location.getLatitude() - 0.001f, location.getLongitude())));
     }
 
+    @Override
+    public void updateMarkers(List<Site> list) {
+        mSites = list;
+        removeMarkers();
+        for (int i = 0; i < list.size(); i++) {
+            Marker marker = mAmap.addMarker(new MarkerOptions()
+                    .position(new LatLng(list.get(i).lat, list.get(i).lon))
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            marker.setTitle(list.get(i).title);
+            marker.setSnippet(list.get(i).subTitle);
+            marker.setObject(i);
+            mMarkers.add(marker);
+        }
+        zoomToSpan();
+    }
+
+    @Override
+    public void removeMarkers() {
+        for (Marker mark : mMarkers) {
+            mark.remove();
+        }
+        mMarkers.clear();
+    }
+
+    /**
+     * 缩放移动地图，保证所有自定义marker在可视范围中。
+     */
+    public void zoomToSpan() {
+        if (mSites != null && mSites.size() > 0) {
+            if (mAmap == null)
+                return;
+            LatLngBounds bounds = getLatLngBounds(getLatLngFromSites(mSites));
+            mAmap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        }
+    }
+
+    /**
+     * 根据自定义内容获取缩放bounds
+     */
+    private LatLngBounds getLatLngBounds(List<LatLng> pointList) {
+        LatLngBounds.Builder b = LatLngBounds.builder();
+        for (int i = 0; i < pointList.size(); i++) {
+            LatLng p = pointList.get(i);
+            b.include(p);
+        }
+        return b.build();
+    }
+
+    private List<LatLng> getLatLngFromSites(List<Site> sites) {
+        List<LatLng> list = new ArrayList<>();
+        for (Site site : sites) {
+            LatLng la = new LatLng(site.lat, site.lon);
+            list.add(la);
+        }
+        return list;
+    }
 
 //    private void addMarkerInScreenCenter() {
-//        LatLng latLng = mAmap.getCameraPosition().target;
-//        Point screenPosition = mAmap.getProjection().toScreenLocation(fixPoi(latLng));
+//        LatLng latLng = fixPoi(mAmap.getCameraPosition().target);
+//        Point screenPosition = mAmap.getProjection().toScreenLocation(latLng);
 //        locationMarker = mAmap.addMarker(new MarkerOptions()
-//                .anchor(0.5f, 0.5f)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_start)));
+//                .anchor(0.5f, 0.6f)
+//                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pin_start_128)));
 //        //设置Marker在屏幕上,不跟随地图移动
 //        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
 //        locationMarker.setZIndex(1);
 //
 //    }
 
-
-    private void addMarkerInScreenCenter() {
-        LatLng latLng = fixPoi(mAmap.getCameraPosition().target);
-        Point screenPosition = mAmap.getProjection().toScreenLocation(latLng);
-        locationMarker = mAmap.addMarker(new MarkerOptions()
-                .anchor(0.5f, 0.6f)
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pin_start_128)));
-        //设置Marker在屏幕上,不跟随地图移动
-        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
-        locationMarker.setZIndex(1);
-
-    }
-
-    private LatLng fixPoi(LatLng in) {
-        return new LatLng(in.latitude + 0.001f, in.longitude);
-    }
+//    private LatLng fixPoi(LatLng in) {
+//        return new LatLng(in.latitude + 0.001f, in.longitude);
+//    }
 
 }

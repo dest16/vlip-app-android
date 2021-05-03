@@ -38,7 +38,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     public void initData() {
         getToolbar().setTitle("登录");
         mMobile.setText("13972608888");
-        mPassword.setText("6}K_^^:!x");
+        mPassword.setText("nklRoW2c^6o~");
     }
 
     @Override

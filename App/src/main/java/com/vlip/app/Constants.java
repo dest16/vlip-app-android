@@ -13,7 +13,7 @@ public interface Constants {
     String IMAGE_URL = "https://134.175.188.57:8445/upload/files/";
 
 //    String TEST_BASE_URL = "http://8.133.167.214:84/";
-    String TEST_BASE_URL = "https://vlip-api.890830.xyz:4443/";
+    String TEST_BASE_URL = "http://219.139.35.25:5785/";
     String TEST_IMAGE_URL = "http://192.168.43.55:8082/upload/files/";
 
     String INTENT_KEY1 = "INTENT_KEY1";
