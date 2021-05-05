@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('D:\\workspace\\vlip-app-android\\App\\keystore.jks')
+            storePassword '123qwe!@#'
+            keyAlias 'vlip'
+            keyPassword '123qwe!@#'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.vlip.app"
@@ -21,6 +29,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 
