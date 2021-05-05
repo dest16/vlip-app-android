@@ -2,10 +2,11 @@ package com.vlip.app.bean;
 
 
 public class Position {
-    private long lat;
-    private long lon;
-    private String title;
-    private String subTitle;
-    private String name;
-    private String phone;
+    public double lat;
+    public double lon;
+    public String title;
+    public String subTitle;
+    public String name;
+    public String phone;
+    public String type;
 }

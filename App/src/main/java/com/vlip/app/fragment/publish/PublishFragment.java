@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.vlip.app.Constants;
 import com.vlip.app.R;
 import com.vlip.app.activity.located.LocatedActivity;
 import com.vlip.app.bean.Car;
@@ -117,7 +118,16 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(Event.LocationEvent event) {
-
+        switch (event.position.type) {
+            case "from":
+                fromView.setTitle(event.position.title);
+                fromView.setSummary(event.position.subTitle);
+                break;
+            case "to":
+                toView.setTitle(event.position.title);
+                toView.setSummary(event.position.subTitle);
+                break;
+        }
     }
 
     @Override
@@ -192,8 +202,14 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
                 getPresenter().publishCargo(from, to, mCarList.get(mViewPager.getCurrentItem()).name);
                 break;
             case R.id.from:
+                Bundle a1 = new Bundle();
+                a1.putString(Constants.INTENT_KEY1, "from");
+                goIntent(LocatedActivity.class, a1);
+                break;
             case R.id.to:
-                goIntent(LocatedActivity.class);
+                Bundle a2 = new Bundle();
+                a2.putString(Constants.INTENT_KEY1, "to");
+                goIntent(LocatedActivity.class, a2);
                 break;
         }
 //        ToolbarFragmentActivity.createFragment(requireContext(), SupportMapFragment.class);

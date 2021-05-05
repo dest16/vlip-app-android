@@ -1,14 +1,11 @@
 package com.vlip.app.activity.located;
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSON;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -21,19 +18,17 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.geocoder.GeocodeResult;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeAddress;
-import com.amap.api.services.geocoder.RegeocodeResult;
+import com.vlip.app.Constants;
 import com.vlip.app.R;
+import com.vlip.app.bean.Event;
+import com.vlip.app.bean.Position;
 import com.vlip.app.bean.Site;
 import com.vlip.kit.DPUtils;
-import com.vlip.kit.FastjsonUtils;
-import com.vlip.kit.ToastUtils;
 import com.vlip.ui.activity.base.BaseActivity;
+import com.vlip.ui.row.RowInputEdit;
 import com.vlip.ui.row.RowSettingText;
 
-import android.support.v7.widget.Toolbar;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +40,11 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     @BindView(R.id.map_view)
     MapView mMapView;
     @BindView(R.id.address)
-    RowSettingText mAdress;
+    RowSettingText mAddress;
+    @BindView(R.id.person)
+    RowInputEdit mPerson;
+    @BindView(R.id.phone)
+    RowInputEdit mPhone;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private AMap mAmap;
@@ -111,6 +110,14 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAmap.addOnMyLocationChangeListener(mOnMyLocationChangeListener);
         mAmap.addOnCameraChangeListener(onCameraChangeListener);
+        mAmap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                updateAddress(marker.getTitle(), marker.getSnippet());
+                mAddress.setTag(marker);
+                return false;
+            }
+        });
         mAmap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
@@ -134,6 +141,17 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.submit:
+                Position p = new Position();
+                Marker marker = (Marker) mAddress.getTag();
+                p.lat = marker.getPosition().latitude;
+                p.lon = marker.getPosition().longitude;
+                p.title = marker.getTitle();
+                p.subTitle = marker.getSnippet();
+                p.name = mPerson.getText();
+                p.phone = mPhone.getText();
+                p.type = getIntent().getExtras().getString(Constants.INTENT_KEY1);
+                EventBus.getDefault().post(new Event.LocationEvent(p));
+                finish();
                 break;
         }
     }
@@ -180,14 +198,9 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
 
     @Override
-    public void updateAddress(RegeocodeAddress address) {
-//        Log.d("RegeocodeAddress", FastjsonUtils.toString(address));
-//        if (address.getAois().size() > 0) {
-//            mAdress.setTitle(address.getAois().get(0).getAoiName());
-//        } else {
-//            mAdress.setTitle(address.getPois().get(0).getTitle());
-//        }
-//        mAdress.setSummary(address.getStreetNumber().getStreet());
+    public void updateAddress(String title, String subTitle) {
+        mAddress.setTitle(title);
+        mAddress.setSummary(subTitle);
     }
 
     @Override

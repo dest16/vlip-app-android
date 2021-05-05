@@ -45,8 +45,8 @@
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:rst_summary="xxx"
-                app:rst_title="车辆管理" />
+                app:rst_summary="详情"
+                app:rst_title="地点" />
 
             <com.vlip.ui.row.RowInputEdit
                 android:id="@+id/remarks"

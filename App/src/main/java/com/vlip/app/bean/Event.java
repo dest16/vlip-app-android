@@ -10,8 +10,6 @@ public class Event {
     public static class CartEvent { //购物车事件
     }
 
-    public static class OrderEvent { //订单事件
-    }
 
     public static class ClickAreaEvent { //点击区域事件
         public Area area;
@@ -32,7 +30,11 @@ public class Event {
     }
 
     public static class LocationEvent { //定位选择事件
-        public String location;
+        public LocationEvent(Position position) {
+            this.position = position;
+        }
+
+        public Position position;
     }
 
 } 

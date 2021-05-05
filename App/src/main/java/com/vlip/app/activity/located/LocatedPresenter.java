@@ -27,7 +27,7 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
         search.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-                getView().updateAddress(regeocodeResult.getRegeocodeAddress());
+//                getView().updateAddress(regeocodeResult.getRegeocodeAddress());
             }
 
             @Override
