@@ -63,13 +63,14 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     }
 
-    @OnClick({R.id.login, R.id.register, R.id.forget_pwd})
+    @OnClick({R.id.login, R.id.wx_login, R.id.forget_pwd})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
                 getPresenter().login(mMobile.getText(), mPassword.getText());
                 break;
-            case R.id.register:
+            case R.id.wx_login:
+                getPresenter().wx_login();
                 break;
             case R.id.forget_pwd:
                 break;

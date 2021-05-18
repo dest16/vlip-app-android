@@ -185,11 +185,10 @@ public class BaseApplication extends Application {
 
     public AMapLocationClient getLocationClient() {
         if (null == aMapLocationClient) {
-
-            return new AMapLocationClient(this);
-        } else {
-            return aMapLocationClient;
+            aMapLocationClient = new AMapLocationClient(this);
         }
+            return aMapLocationClient;
+
     }
 
     static {

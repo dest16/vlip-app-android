@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            storeFile file('D:\\workspace\\vlip-app-android\\App\\keystore.jks')
+            storeFile file('keystore.jks')
             storePassword '123qwe!@#'
             keyAlias 'vlip'
             keyPassword '123qwe!@#'
@@ -100,6 +100,9 @@ dependencies {
     implementation 'com.amap.api:3dmap:latest.integration'
     implementation 'com.amap.api:search:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
+
+    //wechat
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 
     implementation 'pub.devrel:easypermissions:2.0.1'
     implementation 'com.zaaach:citypicker:2.0.3'
