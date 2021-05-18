@@ -131,6 +131,7 @@ public class MeFragment extends BaseFragment {
             GlideApp.with(this).load(member.image).into(mPhoto);
             mGoLogin.setText(AppUtils.formatPhone(member.mobile));
         } else {
+            mPhoto.setImageResource(R.mipmap.photo);
             mGoLogin.setText("登录/注册 >");
         }
     }

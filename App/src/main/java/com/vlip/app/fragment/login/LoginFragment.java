@@ -3,9 +3,12 @@ package com.vlip.app.fragment.login;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.vlip.app.R;
 import com.vlip.app.activity.home.HomeActivity;
+import com.vlip.app.fragment.register.RegisterFragment;
+import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.row.RowInputEdit;
 
@@ -23,6 +26,9 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @BindView(R.id.photo)
     ImageView photo;
+
+    @BindView(R.id.member_check)
+    RadioGroup mRadioGroup;
 
     @Override
     public int getViewId() {
@@ -63,16 +69,21 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     }
 
-    @OnClick({R.id.login, R.id.wx_login, R.id.forget_pwd})
+    @OnClick({R.id.login, R.id.wx_login, R.id.forget_pwd, R.id.register})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
-                getPresenter().login(mMobile.getText(), mPassword.getText());
+                int id = mRadioGroup.getCheckedRadioButtonId();
+                id = (id == R.id.sender ? 0 : 1);
+                getPresenter().login(mMobile.getText(), mPassword.getText(), id);
                 break;
             case R.id.wx_login:
                 getPresenter().wx_login();
                 break;
             case R.id.forget_pwd:
+                break;
+            case R.id.register:
+                ToolbarFragmentActivity.createFragment(requireContext(), RegisterFragment.class, null);
                 break;
         }
     }

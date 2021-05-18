@@ -15,6 +15,8 @@ public class Member {
 
     public String sn;
 
+    public int role;
+
     public int totalCount;
 
     public int unPayCount;

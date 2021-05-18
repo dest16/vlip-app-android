@@ -22,6 +22,9 @@ public interface INetworkService {
     @POST("admin/login")
     Observable<ResultBean> login(@Body Map<String, Object> params);
 
+    @POST("admin/register")
+    Observable<ResultBean> register(@Body Map<String, Object> params);
+
     @GET("city/list")
     Observable<ResultBean> queryCities(@QueryMap Map<String, Object> params);
 

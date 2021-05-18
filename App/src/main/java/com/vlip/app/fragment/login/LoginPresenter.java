@@ -28,7 +28,10 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
         super(mModel, mView);
     }
 
-    void login(String mobile, String password) {
+    /*
+     member 0:发货人 1：承运人
+     */
+    void login(String mobile, String password, int role) {
         Map<String, Object> params = new HashMap<>();
         params.put("username", mobile);
         params.put("password", password);
@@ -51,6 +54,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                 member.image = imageUrl;
 //                member.memberId = memberId;
                 member.mobile = mobile;
+                member.role = role;
 //                member.sn = sn;
                 AppUtils.saveMember(member);
 
