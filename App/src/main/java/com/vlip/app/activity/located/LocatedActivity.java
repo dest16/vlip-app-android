@@ -10,7 +10,6 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.CustomMapStyleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
@@ -52,27 +51,27 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     private List<Marker> mMarkers = new ArrayList<>();
     private List<Site> mSites;
 
-    private final AMap.OnMyLocationChangeListener mOnMyLocationChangeListener = location -> {
+    private  AMap.OnMyLocationChangeListener mOnMyLocationChangeListener = location -> {
         if (current == null) {
 //            moveMap(location);
             getPresenter().getAddressInfo(new LatLonPoint(location.getLatitude(), location.getLongitude()));
         }
         current = location;
     };
-    private final AMap.OnCameraChangeListener onCameraChangeListener = new AMap.OnCameraChangeListener() {
-        @Override
-        public void onCameraChange(CameraPosition cameraPosition) {
-
-        }
-
-        @Override
-        public void onCameraChangeFinish(CameraPosition cameraPosition) {
-//            if (locationMarker != null) {
-//                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
-//                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
-//            }
-        }
-    };
+//    private  AMap.OnCameraChangeListener onCameraChangeListener = new AMap.OnCameraChangeListener() {
+//        @Override
+//        public void onCameraChange(CameraPosition cameraPosition) {
+//
+//        }
+//
+//        @Override
+//        public void onCameraChangeFinish(CameraPosition cameraPosition) {
+////            if (locationMarker != null) {
+////                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
+////                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
+////            }
+//        }
+//    };
 
     @Override
     public int getViewId() {
@@ -109,7 +108,7 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.getUiSettings().setMyLocationButtonEnabled(true); //设置默认定位按钮是否显示，非必需设置。
         mAmap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         mAmap.addOnMyLocationChangeListener(mOnMyLocationChangeListener);
-        mAmap.addOnCameraChangeListener(onCameraChangeListener);
+//        mAmap.addOnCameraChangeListener(onCameraChangeListener);
         mAmap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -145,8 +144,8 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
                 Marker marker = (Marker) mAddress.getTag();
                 p.lat = marker.getPosition().latitude;
                 p.lon = marker.getPosition().longitude;
-                p.title = marker.getTitle();
-                p.subTitle = marker.getSnippet();
+                p.site = marker.getTitle();
+                p.desc = marker.getSnippet();
                 p.name = mPerson.getText();
                 p.phone = mPhone.getText();
                 p.type = getIntent().getExtras().getString(Constants.INTENT_KEY1);
@@ -160,9 +159,10 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        if (mMapView != null)
+        if (mMapView != null) {
             mMapView.onDestroy();
-    }
+            mOnMyLocationChangeListener = null;
+        }    }
 
     @Override
     protected void onResume() {

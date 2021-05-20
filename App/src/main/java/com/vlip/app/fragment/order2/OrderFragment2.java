@@ -57,12 +57,12 @@ public class OrderFragment2 extends BaseFragment<OrderPresenter2> implements Ord
         onEvent(new Event.LoginEvent());
 //        assert getArguments() != null;
 //        getToolbar().setTitle("我的订单");
-        mTitleList.add("待付款");
-        mTitleList.add("待发货");
-        mTitleList.add("待收货");
+        mTitleList.add("待接单");
+        mTitleList.add("进行中");
         mTitleList.add("已完成");
+        mTitleList.add("已取消");
+        mFragmentList.add(OrderListFragment.newInstance(0));
         mFragmentList.add(OrderListFragment.newInstance(1));
-        mFragmentList.add(OrderListFragment.newInstance(2));
         mFragmentList.add(OrderListFragment.newInstance(3));
         mFragmentList.add(OrderListFragment.newInstance(4));
         mAdapter.setFragment(mTitleList, mFragmentList);

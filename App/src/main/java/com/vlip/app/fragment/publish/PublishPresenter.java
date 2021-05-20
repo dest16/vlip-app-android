@@ -5,12 +5,14 @@ import android.Manifest;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
-import com.vlip.app.bean.Cargo;
 import com.vlip.app.bean.Position;
 import com.vlip.app.bean.ResultBean;
 import com.vlip.app.network.BaseResponse;
 import com.vlip.ui.mvp.base.BasePresenter;
 import com.zaaach.citypicker.model.LocatedCity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -53,20 +55,20 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
     }
 
     void publishCargo(Position from, Position to, String carType) {
-        Cargo cargo = new Cargo();
-        cargo.from = from;
-        cargo.to = to;
-        cargo.carType = carType;
-        getModel().queryPublishGoods(cargo, new BaseResponse() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("from", from);
+        params.put("to", to);
+        params.put("type", carType);
+        getModel().queryPublishGoods(params, new BaseResponse() {
             @Override
             public void onSuccess(ResultBean bean) {
-
+                getView().showMessage("发布成功");
 
             }
 
             @Override
             public void onError(String errMsg) {
-
+                getView().showMessage(errMsg);
             }
         });
     }

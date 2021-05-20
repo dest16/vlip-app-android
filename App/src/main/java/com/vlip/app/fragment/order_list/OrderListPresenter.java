@@ -1,9 +1,9 @@
 package com.vlip.app.fragment.order_list;
 
-import com.vlip.kit.FastjsonUtils;
-import com.vlip.app.bean.Order;
+import com.vlip.app.bean.Order2;
 import com.vlip.app.bean.ResultBean;
 import com.vlip.app.network.BaseResponse;
+import com.vlip.kit.FastjsonUtils;
 import com.vlip.ui.mvp.base.BasePresenter;
 
 import org.json.JSONObject;
@@ -21,17 +21,17 @@ public class OrderListPresenter extends BasePresenter<OrderListModel, OrderListV
     void queryOrderList(int status, int page, int limit) {
         Map<String, Object> params = new HashMap<>();
         params.put("status", status);
-        params.put("page", page);
-        params.put("limit", limit);
-        getModel().queryOrderByStatus(params, new BaseResponse() {
+        params.put("pageNum", page);
+        params.put("pageSize", limit);
+        getModel().queryOrdersByStatus(params, new BaseResponse() {
             @Override
             public void onSuccess(ResultBean bean) {
                 JSONObject data = bean.getJSONObject();
-                JSONObject page = data.optJSONObject("page");
-                String jsonList = page.optString("list");
-                long currPage = page.optLong("currPage");
-                long totalPage = page.optLong("totalPage");
-                List<Order> orderList = FastjsonUtils.toList(jsonList, Order.class);
+//                JSONObject page = data.optJSONObject("data");
+                String jsonList = data.optString("list");
+                long currPage = data.optLong("pageNum");
+                long totalPage = data.optLong("totalPage");
+                List<Order2> orderList = FastjsonUtils.toList(jsonList, Order2.class);
                 getView().setOrderList(currPage, totalPage, orderList);
             }
 

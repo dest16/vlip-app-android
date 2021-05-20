@@ -14,4 +14,6 @@ public interface PublishView extends BaseView {
     void showCityPick(String city);
 
     void closeApp();
+
+    void showMessage(String msg);
 }

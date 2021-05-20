@@ -3,19 +3,17 @@ package com.vlip.app.fragment.order_list;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.vlip.kit.DPUtils;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
-import com.vlip.app.bean.Order;
-import com.vlip.app.bean.OrderItem;
+import com.vlip.app.bean.Order2;
 import com.vlip.app.kit.AppUtils;
+import com.vlip.kit.DPUtils;
 import com.vlip.ui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.vlip.ui.adapter.recyclerview.LinearDividerItemDecoration;
 import com.vlip.ui.adapter.recyclerview.ViewHolder;
@@ -34,7 +32,7 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
     RecyclerView mRecyclerView;
 
     Integer mPage = 1;
-    BaseRecyclerAdapter<Order> mAdapter;
+    BaseRecyclerAdapter<Order2> mAdapter;
     int status;
 
     public static OrderListFragment newInstance(int status) {
@@ -62,10 +60,10 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
         assert getArguments() != null;
         status = getArguments().getInt(Constants.INTENT_KEY1);
         switch (status) {
-            case 1: //待付款
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unpay) {
+            case 0: //待接单
+                mAdapter = new BaseRecyclerAdapter<Order2>(R.layout.item_order_unpay) {
                     @Override
-                    protected void convert(ViewHolder viewHolder, Order item, int position) {
+                    protected void convert(ViewHolder viewHolder, Order2 item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
                         TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
@@ -75,47 +73,48 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                         TextView spec = viewHolder.findViewById(R.id.spec);
                         TextView price = viewHolder.findViewById(R.id.price);
                         TextView option1 = viewHolder.findViewById(R.id.option1);
-                        sn.setText(String.format("订单编号：%s", item.sn));
-                        price.setText(AppUtils.toRMBFormat(item.amount));
-                        if (item.list.size() >= 3) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            OrderItem item3 = item.list.get(2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.VISIBLE);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            AppUtils.loadImage(item3.image, image3);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 2) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.GONE);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 1) {
-                            OrderItem item1 = item.list.get(0);
-                            AppUtils.loadImage(item1.image, image1);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.GONE);
-                            image3.setVisibility(View.GONE);
-                            name.setText(item1.name);
-                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
-                        }
+                        sn.setText(String.format("订单编号：%s", item.id));
+//                        sn.setText(String.format("订单编号：%s", item.sn));
+//                        price.setText(AppUtils.toRMBFormat(item.amount));
+//                        if (item.list.size() >= 3) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            OrderItem item3 = item.list.get(2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.VISIBLE);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            AppUtils.loadImage(item3.image, image3);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 2) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 1) {
+//                            OrderItem item1 = item.list.get(0);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.GONE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText(item1.name);
+//                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
+//                        }
                     }
                 };
                 mRecyclerView.setAdapter(mAdapter);
                 break;
-            case 2: //待发货
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unsend) {
+            case 1: //进行中
+                mAdapter = new BaseRecyclerAdapter<Order2>(R.layout.item_order_unsend) {
                     @Override
-                    protected void convert(ViewHolder viewHolder, Order item, int position) {
+                    protected void convert(ViewHolder viewHolder, Order2 item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
                         TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
@@ -124,46 +123,47 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                         ImageView image3 = viewHolder.findViewById(R.id.image3);
                         TextView spec = viewHolder.findViewById(R.id.spec);
                         TextView option1 = viewHolder.findViewById(R.id.option1);
-                        sn.setText(String.format("订单编号：%s", item.sn));
-                        if (item.list.size() >= 3) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            OrderItem item3 = item.list.get(2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.VISIBLE);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            AppUtils.loadImage(item3.image, image3);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 2) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.GONE);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 1) {
-                            OrderItem item1 = item.list.get(0);
-                            AppUtils.loadImage(item1.image, image1);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.GONE);
-                            image3.setVisibility(View.GONE);
-                            name.setText(item1.name);
-                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
-                        }
+                        sn.setText(String.format("订单编号：%s", item.id));
+//                        sn.setText(String.format("订单编号：%s", item.sn));
+//                        if (item.list.size() >= 3) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            OrderItem item3 = item.list.get(2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.VISIBLE);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            AppUtils.loadImage(item3.image, image3);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 2) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 1) {
+//                            OrderItem item1 = item.list.get(0);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.GONE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText(item1.name);
+//                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
+//                        }
                     }
                 };
                 mRecyclerView.setAdapter(mAdapter);
                 break;
-            case 3: //待收货
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unreceive) {
+            case 3: //已完成
+                mAdapter = new BaseRecyclerAdapter<Order2>(R.layout.item_order_unreceive) {
                     @Override
-                    protected void convert(ViewHolder viewHolder, Order item, int position) {
+                    protected void convert(ViewHolder viewHolder, Order2 item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
                         TextView name = viewHolder.findViewById(R.id.name);
                         ImageView image1 = viewHolder.findViewById(R.id.image1);
@@ -173,46 +173,47 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                         TextView option1 = viewHolder.findViewById(R.id.option1);
                         TextView option2 = viewHolder.findViewById(R.id.option2);
                         TextView option3 = viewHolder.findViewById(R.id.option3);
-                        sn.setText(String.format("订单编号：%s", item.sn));
-                        if (item.list.size() >= 3) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            OrderItem item3 = item.list.get(2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.VISIBLE);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            AppUtils.loadImage(item3.image, image3);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 2) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.GONE);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 1) {
-                            OrderItem item1 = item.list.get(0);
-                            AppUtils.loadImage(item1.image, image1);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.GONE);
-                            image3.setVisibility(View.GONE);
-                            name.setText(item1.name);
-                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
-                        }
+                        sn.setText(String.format("订单编号：%s", item.id));
+//                        sn.setText(String.format("订单编号：%s", item.sn));
+//                        if (item.list.size() >= 3) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            OrderItem item3 = item.list.get(2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.VISIBLE);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            AppUtils.loadImage(item3.image, image3);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 2) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 1) {
+//                            OrderItem item1 = item.list.get(0);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.GONE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText(item1.name);
+//                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
+//                        }
                     }
                 };
                 mRecyclerView.setAdapter(mAdapter);
                 break;
-            case 4: //已完成
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_finished) {
+            case 4: //已取消
+                mAdapter = new BaseRecyclerAdapter<Order2>(R.layout.item_order_finished) {
                     @Override
-                    protected void convert(ViewHolder viewHolder, Order item, int position) {
+                    protected void convert(ViewHolder viewHolder, Order2 item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
                         TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
@@ -222,38 +223,38 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                         TextView spec = viewHolder.findViewById(R.id.spec);
                         TextView option1 = viewHolder.findViewById(R.id.option1);
                         TextView option2 = viewHolder.findViewById(R.id.option2);
-                        sn.setText(String.format("订单编号：%s", item.sn));
-                        if (item.list.size() >= 3) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            OrderItem item3 = item.list.get(2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.VISIBLE);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            AppUtils.loadImage(item3.image, image3);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 2) {
-                            OrderItem item1 = item.list.get(0);
-                            OrderItem item2 = item.list.get(1);
-                            AppUtils.loadImage(item1.image, image1);
-                            AppUtils.loadImage(item2.image, image2);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.VISIBLE);
-                            image3.setVisibility(View.GONE);
-                            name.setText("");
-                            spec.setText("");
-                        } else if (item.list.size() == 1) {
-                            OrderItem item1 = item.list.get(0);
-                            AppUtils.loadImage(item1.image, image1);
-                            image1.setVisibility(View.VISIBLE);
-                            image2.setVisibility(View.GONE);
-                            image3.setVisibility(View.GONE);
-                            name.setText(item1.name);
-                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
-                        }
+//                        sn.setText(String.format("订单编号：%s", item.sn));
+//                        if (item.list.size() >= 3) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            OrderItem item3 = item.list.get(2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.VISIBLE);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            AppUtils.loadImage(item3.image, image3);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 2) {
+//                            OrderItem item1 = item.list.get(0);
+//                            OrderItem item2 = item.list.get(1);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            AppUtils.loadImage(item2.image, image2);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.VISIBLE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText("");
+//                            spec.setText("");
+//                        } else if (item.list.size() == 1) {
+//                            OrderItem item1 = item.list.get(0);
+//                            AppUtils.loadImage(item1.image, image1);
+//                            image1.setVisibility(View.VISIBLE);
+//                            image2.setVisibility(View.GONE);
+//                            image3.setVisibility(View.GONE);
+//                            name.setText(item1.name);
+//                            spec.setText(AppUtils.getSelectSpecValue(item1.specificationValues));
+//                        }
                     }
                 };
                 mRecyclerView.setAdapter(mAdapter);
@@ -293,7 +294,7 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
     }
 
     @Override
-    public void setOrderList(long currPage, long totalPage, List<Order> orderList) {
+    public void setOrderList(long currPage, long totalPage, List<Order2> orderList) {
         if (currPage >= totalPage) {
             mRefreshLayout.finishLoadMoreWithNoMoreData();
             mAdapter.replaceAll(orderList);

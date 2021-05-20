@@ -4,7 +4,6 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
-import com.vlip.app.bean.Cargo;
 import com.vlip.app.network.BaseResponse;
 import com.vlip.app.network.RetrofitManager;
 import com.vlip.ui.mvp.base.BaseModel;
@@ -44,8 +43,8 @@ class PublishModel extends BaseModel {
     }
 
 
-    void queryPublishGoods(Cargo cargo, BaseResponse observer) {
-        RetrofitManager.getInstance().mNetwrokService.publishGoods(cargo)
+    void queryPublishGoods(Map<String, Object> params, BaseResponse observer) {
+        RetrofitManager.getInstance().mNetwrokService.publishOrder(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
