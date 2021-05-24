@@ -1,10 +1,14 @@
 package com.vlip.app.activity.located;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -18,12 +22,17 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
 import com.vlip.app.bean.Position;
 import com.vlip.app.bean.Site;
 import com.vlip.kit.DPUtils;
+import com.vlip.kit.ToastUtils;
 import com.vlip.ui.activity.base.BaseActivity;
 import com.vlip.ui.row.RowInputEdit;
 import com.vlip.ui.row.RowSettingText;
@@ -36,25 +45,33 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LocatedActivity extends BaseActivity<LocatedPresenter> implements LocatedView {
+public class LocatedActivity extends BaseActivity<LocatedPresenter> implements LocatedView, MaterialSearchView.OnQueryTextListener, Inputtips.InputtipsListener, AdapterView.OnItemClickListener {
     @BindView(R.id.map_view)
     MapView mMapView;
     @BindView(R.id.address)
     RowSettingText mAddress;
+    @BindView(R.id.remarks)
+    RowInputEdit mRemarks;
     @BindView(R.id.person)
     RowInputEdit mPerson;
     @BindView(R.id.phone)
     RowInputEdit mPhone;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+
     private AMap mAmap;
     private Location current;
     private List<Marker> mMarkers = new ArrayList<>();
     private List<Site> mSites;
+    private Marker locationMarker;
+    private LocatedSearchAdapter mTipsAdapter;
+    private int pinResId;
 
     private final AMap.OnMyLocationChangeListener mOnMyLocationChangeListener = location -> {
         if (current == null) {
-//            moveMap(location);
+            moveMap(new LatLng(location.getLatitude(), location.getLongitude()));
             getPresenter().getAddressInfo(new LatLonPoint(location.getLatitude(), location.getLongitude()));
         }
         current = location;
@@ -67,10 +84,9 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
 
         @Override
         public void onCameraChangeFinish(CameraPosition cameraPosition) {
-//            if (locationMarker != null) {
-//                LatLng la=fixPoi(new LatLng(locationMarker.getPosition().latitude,locationMarker.getPosition().longitude));
-//                getPresenter().getAddressInfo(new LatLonPoint(la.latitude, la.longitude));
-//            }
+            if (locationMarker != null) {
+                getPresenter().getAddressInfo(new LatLonPoint(locationMarker.getPosition().latitude, locationMarker.getPosition().longitude));
+            }
         }
     };
 
@@ -80,10 +96,22 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.map_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnItemClickListener(this);
+        return true;
+    }
+
+    @Override
     public void initView(Bundle savedInstanceState) {
+        pinResId = getIntent().getExtras().getString(Constants.INTENT_KEY1).equals("from") ? R.mipmap.pin_start_128 : R.mipmap.pin_end_128;
         int space = DPUtils.dp2px(getResources(), 10);
         mToolbar.setContentInsetsRelative(space, space);
         mToolbar.setContentInsetStartWithNavigation(0);
+        setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(com.vlip.ui.R.drawable.ic_left_arrow);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +119,7 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
                 finish();
             }
         });
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mMapView.onCreate(savedInstanceState);
         if (mAmap == null)
             mAmap = mMapView.getMap();
@@ -105,6 +134,10 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);
+        myLocationStyle.showMyLocation(false);
+        mAmap.getUiSettings().setTiltGesturesEnabled(false);
+        mAmap.getUiSettings().setRotateGesturesEnabled(false);
+        mAmap.getUiSettings().setGestureScaleByMapCenter(true);
         mAmap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         mAmap.getUiSettings().setMyLocationButtonEnabled(true); //设置默认定位按钮是否显示，非必需设置。
         mAmap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
@@ -121,9 +154,9 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         mAmap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
-//                addMarkerInScreenCenter();
+                addMarkerInScreenCenter();
 //                markerOverlay = new MarkerOverlay(mAmap, )
-                getPresenter().getSiteMarkets();
+//                getPresenter().getSiteMarkets();
             }
         });
     }
@@ -147,11 +180,15 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
                 p.lon = marker.getPosition().longitude;
                 p.title = marker.getTitle();
                 p.subTitle = marker.getSnippet();
-                p.name = mPerson.getText();
-                p.phone = mPhone.getText();
+                p.name = mPerson.getText().trim();
+                p.phone = mPhone.getText().trim();
                 p.type = getIntent().getExtras().getString(Constants.INTENT_KEY1);
-                EventBus.getDefault().post(new Event.LocationEvent(p));
-                finish();
+                if (p.name.isEmpty() || p.phone.isEmpty()) {
+                    ToastUtils.showToast("请完善联系人信息");
+                } else {
+                    EventBus.getDefault().post(new Event.LocationEvent(p));
+                    finish();
+                }
                 break;
         }
     }
@@ -204,8 +241,8 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
     }
 
     @Override
-    public void moveMap(Location location) {
-        mAmap.animateCamera(CameraUpdateFactory.changeLatLng(new LatLng(location.getLatitude() - 0.001f, location.getLongitude())));
+    public void moveMap(LatLng location) {
+        mAmap.animateCamera(CameraUpdateFactory.changeLatLng(location));
     }
 
     @Override
@@ -266,20 +303,66 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         return list;
     }
 
-//    private void addMarkerInScreenCenter() {
-//        LatLng latLng = fixPoi(mAmap.getCameraPosition().target);
-//        Point screenPosition = mAmap.getProjection().toScreenLocation(latLng);
-//        locationMarker = mAmap.addMarker(new MarkerOptions()
-//                .anchor(0.5f, 0.6f)
-//                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.pin_start_128)));
-//        //设置Marker在屏幕上,不跟随地图移动
-//        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
-//        locationMarker.setZIndex(1);
-//
-//    }
+    private void addMarkerInScreenCenter() {
+        Point screenPosition = mAmap.getProjection().toScreenLocation(mAmap.getCameraPosition().target);
+        locationMarker = mAmap.addMarker(new MarkerOptions()
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.fromResource(pinResId)));
+        //设置Marker在屏幕上,不跟随地图移动
+        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
+        locationMarker.setZIndex(1);
+    }
 
-//    private LatLng fixPoi(LatLng in) {
-//        return new LatLng(in.latitude + 0.001f, in.longitude);
-//    }
+    private boolean IsEmptyOrNullString(String s) {
+        return (s == null) || (s.trim().length() == 0);
+    }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (!IsEmptyOrNullString(newText)) {
+            InputtipsQuery inputquery = new InputtipsQuery(newText, "秭归");
+            Inputtips inputTips = new Inputtips(getApplicationContext(), inputquery);
+            inputTips.setInputtipsListener(this);
+            inputTips.requestInputtipsAsyn();
+        } else {
+            if (mTipsAdapter != null) {
+                mTipsAdapter.notifyData(null);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> tipList, int rCode) {
+        if (rCode == 1000) {// 正确返回
+            List<Tip> tempList = new ArrayList<>();
+            for (Tip tip : tipList) {
+                if (tip.getPoint() != null) {
+                    tempList.add(tip);
+                }
+            }
+            if (mTipsAdapter == null) {
+                mTipsAdapter = new LocatedSearchAdapter(getApplicationContext(), tempList);
+                searchView.setAdapter(mTipsAdapter);
+            } else {
+                mTipsAdapter.notifyData(tempList);
+            }
+            searchView.showSuggestions();
+        } else {
+            ToastUtils.showToast("错误:" + rCode);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        LatLonPoint selected = mTipsAdapter.getItem(position).getPoint();
+        moveMap(new LatLng(selected.getLatitude(), selected.getLongitude()));
+        searchView.closeSearch();
+    }
 }

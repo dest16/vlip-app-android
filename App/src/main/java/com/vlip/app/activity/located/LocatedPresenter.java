@@ -7,6 +7,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.vlip.app.BaseApplication;
@@ -27,7 +28,14 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
         search.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
             @Override
             public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-//                getView().updateAddress(regeocodeResult.getRegeocodeAddress());
+                RegeocodeAddress address = regeocodeResult.getRegeocodeAddress();
+                String title;
+                if (address.getAois().size() > 0) {
+                    title = address.getAois().get(0).getAoiName();
+                } else {
+                    title = address.getPois().get(0).getTitle();
+                }
+                getView().updateAddress(title, address.getStreetNumber().getStreet());
             }
 
             @Override
