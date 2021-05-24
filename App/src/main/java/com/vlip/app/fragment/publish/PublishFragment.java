@@ -120,12 +120,14 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     public void onEvent(Event.LocationEvent event) {
         switch (event.position.type) {
             case "from":
-                fromView.setTitle(event.position.title);
-                fromView.setSummary(event.position.subTitle);
+                fromView.setTitle(event.position.site);
+                fromView.setSummary(event.position.desc);
+                fromView.setTag(event.position);
                 break;
             case "to":
-                toView.setTitle(event.position.title);
-                toView.setSummary(event.position.subTitle);
+                toView.setTitle(event.position.site);
+                toView.setSummary(event.position.desc);
+                toView.setTag(event.position);
                 break;
         }
     }
@@ -172,6 +174,11 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     @Override
     public void closeApp() {
         finish();
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        ToastUtils.showToast(msg);
     }
 
 

@@ -11,8 +11,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class OrderListModel extends BaseModel {
 
-    void queryOrderByStatus(Map<String, Object> params, BaseResponse observer) {
-        RetrofitManager.getInstance().mNetwrokService.queryOrderByStatus(params)
+    void queryOrdersByStatus(Map<String, Object> params, BaseResponse observer) {
+        RetrofitManager.getInstance().mNetwrokService.queryOrdersByStatus(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

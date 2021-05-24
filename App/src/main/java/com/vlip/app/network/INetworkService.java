@@ -1,6 +1,5 @@
 package com.vlip.app.network;
 
-import com.vlip.app.bean.Cargo;
 import com.vlip.app.bean.ResultBean;
 
 import java.util.Map;
@@ -28,9 +27,14 @@ public interface INetworkService {
     @GET("city/list")
     Observable<ResultBean> queryCities(@QueryMap Map<String, Object> params);
 
-    @POST("")
-    Observable<ResultBean> publishGoods(@Body Cargo cargo);
+    @POST("orders/add")
+    Observable<ResultBean> publishOrder(@Body Map<String, Object> params);
 
+    @GET("orders/list")
+    Observable<ResultBean> queryOrdersByStatus(@QueryMap Map<String, Object> params);
+
+
+   /**********************************************************************************/
     @GET("queryTreeCategory")
     Observable<ResultBean> queryTreeCategory(@QueryMap Map<String, Object> params);
 
