@@ -113,7 +113,7 @@ public class RowSettingText extends ConstraintLayout implements IRow {
         }
     }
 
-    public void setRightImage(boolean isShow){
+    public void setRightImage(boolean isShow) {
         if (isShow) {
             mRightImage.setVisibility(VISIBLE);
         } else {
@@ -121,8 +121,8 @@ public class RowSettingText extends ConstraintLayout implements IRow {
         }
     }
 
-    public void setStatusPadding(int left, int top, int right, int bottom){
-       mStatus.setPadding(left, top, right, bottom);
+    public void setStatusPadding(int left, int top, int right, int bottom) {
+        mStatus.setPadding(left, top, right, bottom);
     }
 
     public void setLeftImageResource(int resId) {
@@ -142,6 +142,15 @@ public class RowSettingText extends ConstraintLayout implements IRow {
     public void setSummary(CharSequence text) {
         mSummary.setVisibility(VISIBLE);
         mSummary.setText(text);
+    }
+
+
+    public String getTitle() {
+        return mTitle.getText().toString();
+    }
+
+    public String getSummary() {
+        return mSummary.getText().toString();
     }
 
     public void setStatus(CharSequence text) {

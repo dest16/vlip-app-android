@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.vlip.kit.DPUtils;
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
+import com.vlip.app.fragment.login.LoginFragment;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.app.network.GlideCacheUtil;
+import com.vlip.kit.DPUtils;
+import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.dialog.CommonDialog;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.mvp.base.BasePresenter;
@@ -86,6 +88,7 @@ public class SettingFragment extends BaseFragment {
                 break;
             case R.id.exit_btn:
                 AppUtils.exitLogin();
+                ToolbarFragmentActivity.createFragment(getContext(), LoginFragment.class);
                 finish();
                 break;
         }

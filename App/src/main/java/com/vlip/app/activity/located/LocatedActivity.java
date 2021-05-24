@@ -175,11 +175,14 @@ public class LocatedActivity extends BaseActivity<LocatedPresenter> implements L
         switch (view.getId()) {
             case R.id.submit:
                 Position p = new Position();
-                Marker marker = (Marker) mAddress.getTag();
+//                Marker marker = (Marker) mAddress.getTag();
+                Marker marker = locationMarker;
                 p.lat = marker.getPosition().latitude;
                 p.lon = marker.getPosition().longitude;
-                p.title = marker.getTitle();
-                p.subTitle = marker.getSnippet();
+                p.title= mAddress.getTitle();
+                p.subTitle= mAddress.getSummary();
+//                p.title = marker.getTitle();
+//                p.subTitle = marker.getSnippet();
                 p.name = mPerson.getText().trim();
                 p.phone = mPhone.getText().trim();
                 p.type = getIntent().getExtras().getString(Constants.INTENT_KEY1);

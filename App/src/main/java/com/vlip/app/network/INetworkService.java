@@ -33,6 +33,11 @@ public interface INetworkService {
     @GET("orders/list")
     Observable<ResultBean> queryOrdersByStatus(@QueryMap Map<String, Object> params);
 
+    @GET("orders/carrier/list")
+    Observable<ResultBean> queryAcceptList(@QueryMap Map<String, Object> params);
+
+    @POST("orders/accept")
+    Observable<ResultBean> acceptOrder(@QueryMap Map<String, Object> params);
 
    /**********************************************************************************/
     @GET("queryTreeCategory")

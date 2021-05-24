@@ -5,11 +5,14 @@ import android.Manifest;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.vlip.app.BaseApplication;
+import com.vlip.app.bean.Event;
 import com.vlip.app.bean.Position;
 import com.vlip.app.bean.ResultBean;
 import com.vlip.app.network.BaseResponse;
 import com.vlip.ui.mvp.base.BasePresenter;
 import com.zaaach.citypicker.model.LocatedCity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +59,8 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
 
     void publishCargo(Position from, Position to, String carType) {
         Map<String, Object> params = new HashMap<>();
+        from.site = from.title;
+        to.site = to.title;
         params.put("from", from);
         params.put("to", to);
         params.put("type", carType);
@@ -63,6 +68,7 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
             @Override
             public void onSuccess(ResultBean bean) {
                 getView().showMessage("发布成功");
+                EventBus.getDefault().post(new Event.ShowOrdersEvent());
 
             }
 

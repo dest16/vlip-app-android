@@ -16,4 +16,5 @@ public interface PublishView extends BaseView {
     void closeApp();
 
     void showMessage(String msg);
+
 }
