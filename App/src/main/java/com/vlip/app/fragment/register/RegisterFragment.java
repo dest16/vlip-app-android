@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RadioGroup;
 
 import com.vlip.app.R;
 import com.vlip.ui.fragment.BaseFragment;
@@ -56,13 +55,13 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @Override
     public void showLoading() {
         mProgressbar.setVisibility(View.VISIBLE);
-        mSubmit.setEnabled(true);
+        mSubmit.setEnabled(false);
     }
 
     @Override
     public void hideLoading() {
         mProgressbar.setVisibility(View.GONE);
-        mSubmit.setEnabled(false);
+        mSubmit.setEnabled(true);
     }
 
     @OnClick({R.id.submit})
