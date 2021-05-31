@@ -63,11 +63,11 @@ public class CarriageFragment extends LazyFragment<CarriagePresenter> implements
         status = getArguments().getInt(Constants.INTENT_KEY1);
         switch (status) {
             case 1: //待付款
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unpay) {
+                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_pending) {
                     @Override
                     protected void convert(ViewHolder viewHolder, Order item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
-                        TextView cancel = viewHolder.findViewById(R.id.cancel);
+//                        TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
                         ImageView image1 = viewHolder.findViewById(R.id.image1);
                         ImageView image2 = viewHolder.findViewById(R.id.image2);
@@ -113,11 +113,11 @@ public class CarriageFragment extends LazyFragment<CarriagePresenter> implements
                 mRecyclerView.setAdapter(mAdapter);
                 break;
             case 2: //待发货
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unsend) {
+                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_process) {
                     @Override
                     protected void convert(ViewHolder viewHolder, Order item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
-                        TextView cancel = viewHolder.findViewById(R.id.cancel);
+//                        TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
                         ImageView image1 = viewHolder.findViewById(R.id.image1);
                         ImageView image2 = viewHolder.findViewById(R.id.image2);
@@ -161,7 +161,7 @@ public class CarriageFragment extends LazyFragment<CarriagePresenter> implements
                 mRecyclerView.setAdapter(mAdapter);
                 break;
             case 3: //待收货
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_unreceive) {
+                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_finished) {
                     @Override
                     protected void convert(ViewHolder viewHolder, Order item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
@@ -210,11 +210,11 @@ public class CarriageFragment extends LazyFragment<CarriagePresenter> implements
                 mRecyclerView.setAdapter(mAdapter);
                 break;
             case 4: //已完成
-                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_finished) {
+                mAdapter = new BaseRecyclerAdapter<Order>(R.layout.item_order_canceled) {
                     @Override
                     protected void convert(ViewHolder viewHolder, Order item, int position) {
                         TextView sn = viewHolder.findViewById(R.id.sn);
-                        TextView cancel = viewHolder.findViewById(R.id.cancel);
+//                        TextView cancel = viewHolder.findViewById(R.id.cancel);
                         TextView name = viewHolder.findViewById(R.id.name);
                         ImageView image1 = viewHolder.findViewById(R.id.image1);
                         ImageView image2 = viewHolder.findViewById(R.id.image2);

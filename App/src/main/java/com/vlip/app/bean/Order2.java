@@ -11,9 +11,11 @@ public class Order2 {
     public String fromSite;
     public int id;
     public Date startTime;
+    public Date acceptTime;
     public int status;
     public double toLat;
     public double toLon;
+    public String orderNumber;
     public String toName;
     public String toPhone;
     public String toSite;

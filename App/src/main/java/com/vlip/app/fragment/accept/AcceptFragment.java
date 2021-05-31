@@ -56,7 +56,7 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
             @Override
             protected void convert(ViewHolder viewHolder, Order2 item, int position) {
                 TextView sn = viewHolder.findViewById(R.id.sn);
-                TextView cancel = viewHolder.findViewById(R.id.cancel);
+//                TextView cancel = viewHolder.findViewById(R.id.cancel);
                 TextView name = viewHolder.findViewById(R.id.name);
                 ImageView image1 = viewHolder.findViewById(R.id.image1);
                 ImageView image2 = viewHolder.findViewById(R.id.image2);
