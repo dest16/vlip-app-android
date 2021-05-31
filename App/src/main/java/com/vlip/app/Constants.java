@@ -12,7 +12,8 @@ public interface Constants {
     String BASE_URL = "https://134.175.188.57:8444/app/api/v1/";
     String IMAGE_URL = "https://134.175.188.57:8445/upload/files/";
 
-    String TEST_BASE_URL = "http://1.116.52.75:84/";
+//    String TEST_BASE_URL = "http://1.116.52.75:84/";
+    String TEST_BASE_URL = "http://219.139.35.25:5785/";
 //    String TEST_BASE_URL = "http://219.139.35.25:5785/";
     String TEST_IMAGE_URL = "http://192.168.43.55:8082/upload/files/";
 

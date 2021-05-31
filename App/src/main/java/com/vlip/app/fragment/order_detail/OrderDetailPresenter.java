@@ -1,11 +1,37 @@
 package com.vlip.app.fragment.order_detail;
 
+import com.vlip.app.bean.Event;
+import com.vlip.app.bean.ResultBean;
+import com.vlip.app.network.BaseResponse;
+import com.vlip.kit.ToastUtils;
 import com.vlip.ui.mvp.base.BasePresenter;
 
-public class OrderDetailPresenter extends BasePresenter<OrderModel2, OrderDetailView> {
+import org.greenrobot.eventbus.EventBus;
 
-    public OrderDetailPresenter(OrderModel2 mModel, OrderDetailView mView) {
+import java.util.HashMap;
+import java.util.Map;
+
+public class OrderDetailPresenter extends BasePresenter<OrderDetailModel, OrderDetailView> {
+
+    public OrderDetailPresenter(OrderDetailModel mModel, OrderDetailView mView) {
         super(mModel, mView);
     }
 
+    void acceptOrder(int id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("oid", id);
+        getModel().acceptOrder(params, new BaseResponse() {
+            @Override
+            public void onSuccess(ResultBean bean) {
+//                getView().refresh();
+                EventBus.getDefault().post(new Event.TakeOrdersEvent());
+                getView().goBack();
+            }
+
+            @Override
+            public void onError(String errMsg) {
+                ToastUtils.showToast(errMsg);
+            }
+        });
+    }
 }

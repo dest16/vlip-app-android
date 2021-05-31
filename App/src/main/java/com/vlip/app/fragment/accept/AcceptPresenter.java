@@ -4,7 +4,6 @@ import com.vlip.app.bean.Order2;
 import com.vlip.app.bean.ResultBean;
 import com.vlip.app.network.BaseResponse;
 import com.vlip.kit.FastjsonUtils;
-import com.vlip.kit.ToastUtils;
 import com.vlip.ui.mvp.base.BasePresenter;
 
 import org.json.JSONObject;
@@ -44,20 +43,6 @@ public class AcceptPresenter extends BasePresenter<AcceptModel, AcceptView> {
     }
 
 
-    void acceptOrder(int id) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("oid", id);
-        getModel().acceptOrder(params, new BaseResponse() {
-            @Override
-            public void onSuccess(ResultBean bean) {
-                getView().refresh();
-            }
 
-            @Override
-            public void onError(String errMsg) {
-                ToastUtils.showToast(errMsg);
-            }
-        });
-    }
 
 }

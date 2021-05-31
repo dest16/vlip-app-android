@@ -40,4 +40,8 @@ public class Event {
     public static class ShowOrdersEvent {
 
     }
+
+    public static class TakeOrdersEvent {
+
+    }
 } 

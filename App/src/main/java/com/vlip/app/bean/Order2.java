@@ -1,8 +1,9 @@
 package com.vlip.app.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Order2 {
+public class Order2 implements Serializable {
 
     public double fromLat;
     public double fromLon;

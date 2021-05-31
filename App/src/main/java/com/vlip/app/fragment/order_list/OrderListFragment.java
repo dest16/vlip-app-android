@@ -11,8 +11,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
 import com.vlip.app.bean.Order2;
+import com.vlip.app.fragment.order_detail.OrderDetailFragment;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.kit.DPUtils;
+import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.vlip.ui.adapter.recyclerview.LinearDividerItemDecoration;
 import com.vlip.ui.adapter.recyclerview.ViewHolder;
@@ -74,9 +76,16 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 to.setText(item.toSite);
 
             }
+
+            @Override
+            protected void onItemClick(Order2 item, int position) {
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.INTENT_KEY1, item);
+                b.putBoolean(Constants.INTENT_KEY2, true);
+                ToolbarFragmentActivity.createFragment(requireContext(), OrderDetailFragment.class, b);
+            }
         };
         mRecyclerView.setAdapter(mAdapter);
-
 //        switch (status) {
 //            case 0: //待接单
 //                mAdapter = new BaseRecyclerAdapter<Order2>(R.layout.item_order_pending) {
