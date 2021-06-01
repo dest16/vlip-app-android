@@ -83,6 +83,7 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
             protected void onItemClick(Order2 item, int position) {
                 Bundle b = new Bundle();
                 b.putSerializable(Constants.INTENT_KEY1, item);
+                b.putBoolean(Constants.INTENT_KEY2, true);
                 ToolbarFragmentActivity.createFragment(requireContext(), OrderDetailFragment.class, b);
             }
         };
