@@ -34,4 +34,23 @@ public class OrderDetailPresenter extends BasePresenter<OrderDetailModel, OrderD
             }
         });
     }
+
+
+    void cancelOrder(int id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("oid", id);
+        getModel().cancelOrder(params, new BaseResponse() {
+            @Override
+            public void onSuccess(ResultBean bean) {
+//                getView().refresh();
+                EventBus.getDefault().post(new Event.CancelOrdersEvent());
+                getView().goBack();
+            }
+
+            @Override
+            public void onError(String errMsg) {
+                ToastUtils.showToast(errMsg);
+            }
+        });
+    }
 }

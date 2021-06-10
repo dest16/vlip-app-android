@@ -10,6 +10,7 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
+import com.vlip.app.bean.Event;
 import com.vlip.app.bean.Order2;
 import com.vlip.app.fragment.order_detail.OrderDetailFragment;
 import com.vlip.app.kit.AppUtils;
@@ -19,6 +20,10 @@ import com.vlip.ui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.vlip.ui.adapter.recyclerview.LinearDividerItemDecoration;
 import com.vlip.ui.adapter.recyclerview.ViewHolder;
 import com.vlip.ui.fragment.LazyFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -57,6 +62,12 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initData() {
         assert getArguments() != null;
         status = getArguments().getInt(Constants.INTENT_KEY1);
@@ -71,17 +82,32 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 TextView to = viewHolder.findViewById(R.id.to);
                 sn.setText(String.format("订单编号：%s", item.orderNumber));
                 type.setText(item.type);
-                time.setText(item.acceptTime.toLocaleString());
+//                time.setText(item.acceptTime.toLocaleString());
                 from.setText(item.fromSite);
                 to.setText(item.toSite);
-
+                String timeStr = "";
+                switch (status) {
+                    case 0://待接单
+                        timeStr = String.format("发布时间:%s", item.startTime.toLocaleString());
+                        EventBus.getDefault().register(this);
+                        break;
+                    case 1://进行中
+                        timeStr = String.format("接单时间:%s", item.acceptTime.toLocaleString());
+                        break;
+                    case 3:
+                        timeStr = String.format("完成时间:%s", item.finishTime.toLocaleString());
+                        break; //已完成
+                    case 4: //已取消
+                        timeStr = String.format("取消时间:%s", item.cancelTime.toLocaleString());
+                        break;
+                }
+                time.setText(timeStr);
             }
 
             @Override
             protected void onItemClick(Order2 item, int position) {
                 Bundle b = new Bundle();
                 b.putSerializable(Constants.INTENT_KEY1, item);
-                b.putBoolean(Constants.INTENT_KEY2, true);
                 ToolbarFragmentActivity.createFragment(requireContext(), OrderDetailFragment.class, b);
             }
         };
@@ -195,6 +221,10 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
     @Override
     public void hideLoading() {
 
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSubscribeEvent(Event.CancelOrdersEvent event) {
+        mRefreshLayout.autoRefresh();
     }
 
     @Override

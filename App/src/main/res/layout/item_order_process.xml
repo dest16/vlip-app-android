@@ -9,57 +9,51 @@
     android:paddingTop="@dimen/dp_6"
     android:paddingBottom="@dimen/dp_6">
 
+
+    <TextView
+        android:id="@+id/sn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_6"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_12" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:padding="@dimen/dp_5"
+        android:background="#F8F8FF"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/sn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingTop="@dimen/dp_6"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_12" />
 
         <TextView
             android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_6"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_12" />
+
+        <TextView
+            android:id="@+id/from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:drawableLeft="@drawable/point_green"
+            android:paddingTop="@dimen/dp_6"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_12" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:drawableLeft="@drawable/point_red"
             android:paddingTop="@dimen/dp_6"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_12" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/point_green"
-        android:paddingTop="@dimen/dp_6"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_12" />
-
-    <TextView
-        android:id="@+id/to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:drawableLeft="@drawable/point_red"
-        android:paddingTop="@dimen/dp_6"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_12" />
 
     <TextView
         android:id="@+id/type"

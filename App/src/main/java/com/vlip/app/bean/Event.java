@@ -44,4 +44,9 @@ public class Event {
     public static class TakeOrdersEvent {
 
     }
+
+
+    public static class CancelOrdersEvent {
+
+    }
 } 

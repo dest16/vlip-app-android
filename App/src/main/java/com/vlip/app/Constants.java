@@ -23,6 +23,11 @@ public interface Constants {
 
     String SP_USER_INFO = "SP_USER_INFO";
 
+
+    String WEB_ABOUT_PATH = "me/aboutUs";
+    String WEB_HELP_PATH = "me/help";
+    String WEB_SERVICE_PATH = "me/service";
+
     int LIMIT = 20;
 
     static String getBaseUrl() {

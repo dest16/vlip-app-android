@@ -14,18 +14,18 @@
         app:rst_title="清理缓存"/>
 
     <com.vlip.ui.row.RowSettingText
-        android:id="@+id/problem"
+        android:id="@+id/help"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        app:rst_title="常见问题"/>
+        app:rst_title="帮助"/>
 
     <com.vlip.ui.row.RowSettingText
-        android:id="@+id/feedback"
+        android:id="@+id/service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        app:rst_title="意见反馈"/>
+        app:rst_title="客户服务"/>
 
     <com.vlip.ui.row.RowSettingText
         android:id="@+id/about"

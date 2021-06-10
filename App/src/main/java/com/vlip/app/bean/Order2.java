@@ -13,6 +13,8 @@ public class Order2 implements Serializable {
     public int id;
     public Date startTime;
     public Date acceptTime;
+    public Date finishTime;
+    public Date cancelTime;
     public int status;
     public double toLat;
     public double toLon;

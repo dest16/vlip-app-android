@@ -16,8 +16,6 @@ import com.vlip.app.bean.Order2;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.row.RowSettingText;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +30,8 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
     RowSettingText fromView;
     @BindView(R.id.to)
     RowSettingText toView;
+    @BindView(R.id.cancel)
+    View cancelView;
 
     private AMap mAmap;
     private Order2 mOrder;
@@ -61,6 +61,7 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
         switch (mOrder.status) {
             case 0:
                 title = "待接单";
+                cancelView.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 title = "进行中";
@@ -102,9 +103,17 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
 
     }
 
-    @OnClick({R.id.take})
-    public void onClick() {
-        getPresenter().acceptOrder(mOrder.id);
+    @OnClick({R.id.take, R.id.cancel})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.take:
+                getPresenter().acceptOrder(mOrder.id);
+                break;
+            case R.id.cancel:
+                getPresenter().cancelOrder(mOrder.id);
+                break;
+        }
+
     }
 
     @Override
@@ -130,7 +139,7 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
     }
 
     @Override
-    public void onSaveInstanceState(@NotNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);

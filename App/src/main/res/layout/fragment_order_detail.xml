@@ -40,12 +40,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_5"
-                android:drawableLeft="@drawable/point_green"
-                android:text="起点" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:padding="@dimen/dp_5"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:drawableLeft="@drawable/point_green"
+                    android:text="起点" />
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:text="取消订单"
+                    android:textColor="@color/cp_color_gray"
+                    android:background="@drawable/button_general"
+                    android:textSize="@dimen/text_14"
+                    android:visibility="gone" />
+            </FrameLayout>
+
 
             <com.vlip.ui.row.RowSettingText
                 android:id="@+id/from"
