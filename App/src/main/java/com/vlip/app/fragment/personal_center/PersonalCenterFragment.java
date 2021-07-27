@@ -3,10 +3,13 @@ package com.vlip.app.fragment.personal_center;
 import android.os.Bundle;
 import android.view.View;
 
+import com.vlip.app.fragment.login.LoginFragment;
+import com.vlip.app.fragment.update_pass.UpdatePassFragment;
 import com.vlip.kit.DPUtils;
 import com.vlip.app.R;
 import com.vlip.app.bean.Member;
 import com.vlip.app.kit.AppUtils;
+import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.mvp.IPresenter;
 import com.vlip.ui.row.RowSettingText;
@@ -49,7 +52,7 @@ public class PersonalCenterFragment extends BaseFragment {
 
     @OnClick({R.id.update_pass})
     public void click(View view) {
-
+        ToolbarFragmentActivity.createFragment(requireContext(), UpdatePassFragment.class);
     }
 
     @Override

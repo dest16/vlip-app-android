@@ -42,6 +42,8 @@ public interface INetworkService {
     @POST("orders/cancel")
     Observable<ResultBean> cancelOrder(@QueryMap Map<String, Object> params);
 
+    @POST("admin/updatePassword")
+    Observable<ResultBean> updatePassword(@QueryMap Map<String, Object> params);
    /**********************************************************************************/
     @GET("queryTreeCategory")
     Observable<ResultBean> queryTreeCategory(@QueryMap Map<String, Object> params);

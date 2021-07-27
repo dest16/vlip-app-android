@@ -85,7 +85,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
                 }
                 Pattern p = Pattern.compile("[0-9a-zA-Z_]{6,18}");
                 Matcher m = p.matcher(pass);
-                if (!m.matches()){
+                if (m.matches()){
                     ToastUtils.showToast("密码必须为6-18位并包含数字和字母");
                     return;
                 }
