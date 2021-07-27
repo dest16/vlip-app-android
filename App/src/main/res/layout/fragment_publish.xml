@@ -26,33 +26,106 @@
             android:gravity="center_vertical" />
     </android.support.v7.widget.Toolbar>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="货物信息" />
+
     <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dp_10"
         app:cardCornerRadius="@dimen/dp_5">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical">-->
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
+        <!--            <android.support.design.widget.TabLayout-->
+        <!--                android:id="@+id/tabLayout"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:tabMode="scrollable" />-->
+
+        <!--            <android.support.v4.view.ViewPager-->
+        <!--                android:id="@+id/viewPager"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="@dimen/dp_80"-->
+        <!--                android:layout_marginLeft="@dimen/dp_10"-->
+        <!--                android:layout_marginTop="@dimen/dp_10"-->
+        <!--                android:layout_marginRight="@dimen/dp_10" />-->
+        <!--        </LinearLayout>-->
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_height="wrap_content">
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:re_hint="货物名称"
+                app:re_input_type="text" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPager"
-                android:layout_marginTop="@dimen/dp_10"
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/weight_u"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/desc"
+                app:re_hint="重量"
+                app:re_input_type="number_decimal" />
+
+            <TextView
+                android:id="@+id/weight_u"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公斤"
                 android:layout_marginRight="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_80" />
-        </LinearLayout>
+                android:textSize="@dimen/text_12"
+                android:textColor="@color/colorGray"
+                app:layout_constraintBottom_toBottomOf="@id/weight"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/weight" />
+
+            <com.vlip.ui.row.RowInputEdit
+                android:id="@+id/amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/amount_u"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weight"
+                app:re_hint="方量"
+                app:re_input_type="number_decimal" />
+
+            <TextView
+                android:id="@+id/amount_u"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方"
+                android:layout_marginRight="@dimen/dp_10"
+                android:textSize="@dimen/text_12"
+                android:textColor="@color/colorGray"
+                app:layout_constraintBottom_toBottomOf="@id/amount"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/amount" />
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.design.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:text="收发地" />
 
     <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"

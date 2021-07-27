@@ -88,17 +88,17 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 String timeStr = "";
                 switch (status) {
                     case 0://待接单
-                        timeStr = String.format("发布时间:%s", item.startTime.toLocaleString());
+                        timeStr = String.format("发布时间：%s", item.startTime.toLocaleString());
                         EventBus.getDefault().register(this);
                         break;
                     case 1://进行中
-                        timeStr = String.format("接单时间:%s", item.acceptTime.toLocaleString());
+                        timeStr = String.format("接单时间：%s", item.acceptTime.toLocaleString());
                         break;
                     case 3:
-                        timeStr = String.format("完成时间:%s", item.finishTime.toLocaleString());
+                        timeStr = String.format("完成时间：%s", item.finishTime.toLocaleString());
                         break; //已完成
                     case 4: //已取消
-                        timeStr = String.format("取消时间:%s", item.cancelTime.toLocaleString());
+                        timeStr = String.format("取消时间：%s", item.cancelTime.toLocaleString());
                         break;
                 }
                 time.setText(timeStr);

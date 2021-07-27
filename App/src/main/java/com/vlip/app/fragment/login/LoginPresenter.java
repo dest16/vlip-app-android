@@ -6,7 +6,7 @@ import com.vlip.app.bean.Member;
 import com.vlip.app.bean.ResultBean;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.app.network.BaseResponse;
-import com.vlip.app.network.WechatLogin;
+import com.vlip.app.network.WechatUtils;
 import com.vlip.app.room.entity.Cart;
 import com.vlip.ui.mvp.base.BasePresenter;
 
@@ -97,7 +97,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
     }
 
     void wx_login() {
-        WechatLogin.getInstance().login();
+        WechatUtils.getInstance().login();
     }
 
     private void saveDB(List<Cart> cartList) {

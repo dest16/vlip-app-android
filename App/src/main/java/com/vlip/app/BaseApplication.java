@@ -14,6 +14,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.vlip.app.network.WechatUtils;
 import com.vlip.app.room.dao.CartDao;
 import com.vlip.app.room.database.AppDatabase;
 import com.vlip.kit.ToastUtils;
@@ -177,6 +178,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         MultiDex.install(this);
         ToastUtils.init(this);
+        WechatUtils.getInstance(); //微信注册
     }
 
     public CartDao getCartDao() {

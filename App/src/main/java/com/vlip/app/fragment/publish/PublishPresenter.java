@@ -57,13 +57,15 @@ class PublishPresenter extends BasePresenter<PublishModel, PublishView> {
         getCurrentLocation();
     }
 
-    void publishCargo(Position from, Position to, String carType) {
+    void publishCargo(Position from, Position to, String desc, String weight, String amount) {
         Map<String, Object> params = new HashMap<>();
         from.site = from.title;
         to.site = to.title;
         params.put("from", from);
         params.put("to", to);
-        params.put("type", carType);
+        params.put("goods", desc);
+        params.put("weight", weight);
+        params.put("volume", amount);
         getModel().queryPublishGoods(params, new BaseResponse() {
             @Override
             public void onSuccess(ResultBean bean) {

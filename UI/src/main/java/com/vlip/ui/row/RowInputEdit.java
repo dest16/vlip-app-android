@@ -91,6 +91,9 @@ public class RowInputEdit extends ConstraintLayout implements IRow {
             case 6:
                 setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                 break;
+            case 7:
+                setInputType(8194);
+                break;
         }
 
         String hintText = typedArray.getString(R.styleable.RowEdit_re_hint);

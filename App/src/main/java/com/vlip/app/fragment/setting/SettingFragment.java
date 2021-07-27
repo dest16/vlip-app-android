@@ -7,7 +7,6 @@ import android.widget.Button;
 import com.vlip.app.R;
 import com.vlip.app.bean.Event;
 import com.vlip.app.fragment.login.LoginFragment;
-import com.vlip.app.fragment.web.WebFragment;
 import com.vlip.app.kit.AppUtils;
 import com.vlip.app.network.GlideCacheUtil;
 import com.vlip.kit.DPUtils;
@@ -22,12 +21,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.vlip.app.Constants.INTENT_KEY1;
-import static com.vlip.app.Constants.TEST_BASE_URL;
-import static com.vlip.app.Constants.WEB_ABOUT_PATH;
-import static com.vlip.app.Constants.WEB_HELP_PATH;
-import static com.vlip.app.Constants.WEB_SERVICE_PATH;
 
 public class SettingFragment extends BaseFragment {
 
@@ -66,7 +59,7 @@ public class SettingFragment extends BaseFragment {
         return null;
     }
 
-    @OnClick({R.id.clear_cache, R.id.help, R.id.service, R.id.about, R.id.exit_btn})
+    @OnClick({R.id.clear_cache,R.id.exit_btn})
     public void onClick(View view) {
         String url = "";
         switch (view.getId()) {
@@ -88,24 +81,24 @@ public class SettingFragment extends BaseFragment {
                 });
                 dialog.show();
                 break;
-            case R.id.help:
-                url = TEST_BASE_URL + WEB_HELP_PATH;
-                Bundle help = new Bundle();
-                help.putString(INTENT_KEY1, url);
-                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, help);
-                break;
-            case R.id.service:
-                url = TEST_BASE_URL + WEB_SERVICE_PATH;
-                Bundle service = new Bundle();
-                service.putString(INTENT_KEY1, url);
-                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, service);
-                break;
-            case R.id.about:
-                url = TEST_BASE_URL + WEB_ABOUT_PATH;
-                Bundle about = new Bundle();
-                about.putString(INTENT_KEY1, url);
-                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, about);
-                break;
+//            case R.id.help:
+//                url = TEST_BASE_URL + WEB_HELP_PATH;
+//                Bundle help = new Bundle();
+//                help.putString(INTENT_KEY1, url);
+//                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, help);
+//                break;
+//            case R.id.service:
+//                url = TEST_BASE_URL + WEB_SERVICE_PATH;
+//                Bundle service = new Bundle();
+//                service.putString(INTENT_KEY1, url);
+//                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, service);
+//                break;
+//            case R.id.about:
+//                url = TEST_BASE_URL + WEB_ABOUT_PATH;
+//                Bundle about = new Bundle();
+//                about.putString(INTENT_KEY1, url);
+//                ToolbarFragmentActivity.createFragment(getContext(), WebFragment.class, about);
+//                break;
             case R.id.exit_btn:
                 AppUtils.exitLogin();
                 ToolbarFragmentActivity.createFragment(getContext(), LoginFragment.class);

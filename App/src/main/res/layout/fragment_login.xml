@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/dp_16"
         app:layout_constraintTop_toBottomOf="@id/photo"
         app:re_hint="手机号码"
-        app:re_input_type="text" />
+        app:re_input_type="phone" />
 
     <com.vlip.ui.row.RowInputEdit
         android:id="@+id/password"
@@ -100,6 +100,7 @@
     <TextView
         android:id="@+id/wx_login"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_20"
         android:drawableTop="@drawable/ic_wechat"

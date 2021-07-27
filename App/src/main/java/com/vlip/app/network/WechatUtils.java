@@ -6,19 +6,19 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.vlip.app.BaseApplication;
 import com.vlip.kit.ToastUtils;
 
-public class WechatLogin {
+public class WechatUtils {
 
-    private static volatile WechatLogin mLogin;
+    private static volatile WechatUtils mInstance;
 
-    public static WechatLogin getInstance() {
-        if (mLogin == null) {
-            synchronized (WechatLogin.class) {
-                if (mLogin == null) {
-                    mLogin = new WechatLogin();
+    public static WechatUtils getInstance() {
+        if (mInstance == null) {
+            synchronized (WechatUtils.class) {
+                if (mInstance == null) {
+                    mInstance = new WechatUtils();
                 }
             }
         }
-        return mLogin;
+        return mInstance;
     }
 
     // APP_ID 替换为你的应用从官方网站申请到的合法appID
@@ -27,7 +27,7 @@ public class WechatLogin {
     // IWXAPI 是第三方app和微信通信的openApi接口
     private IWXAPI api;
 
-    public WechatLogin() {
+    public WechatUtils() {
         regToWx();
     }
 
@@ -40,15 +40,15 @@ public class WechatLogin {
 
     }
 
-    public  void login() {
-//        if (!api.isWXAppInstalled()) {
-//            Toast.makeText(mContext, "您还未安装微信客户端", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+    public void login() {
+        if (!api.isWXAppInstalled()) {
+            ToastUtils.showToast("您还未安装微信客户端");
+            return;
+        }
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test_neng";
-        boolean res=api.sendReq(req);
-        ToastUtils.showToast(res+"");
+        boolean res = api.sendReq(req);
+        ToastUtils.showToast(res + "");
     }
 }

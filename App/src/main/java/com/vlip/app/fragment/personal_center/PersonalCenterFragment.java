@@ -1,6 +1,7 @@
 package com.vlip.app.fragment.personal_center;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.vlip.kit.DPUtils;
 import com.vlip.app.R;
@@ -11,6 +12,7 @@ import com.vlip.ui.mvp.IPresenter;
 import com.vlip.ui.row.RowSettingText;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class PersonalCenterFragment extends BaseFragment {
 
@@ -43,6 +45,11 @@ public class PersonalCenterFragment extends BaseFragment {
         mPhone.setStatus(AppUtils.formatPhone(member.mobile));
         mPhone.setRightImage(false);
         mPhone.setStatusPadding(0, 0, space, 0);
+    }
+
+    @OnClick({R.id.update_pass})
+    public void click(View view) {
+
     }
 
     @Override

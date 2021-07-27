@@ -35,6 +35,7 @@
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/search_view"
+            android:hint="搜索"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>
@@ -88,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:re_hint="联系电话"
-                app:re_input_type="text" />
+                app:re_input_type="phone" />
 
             <Button
                 android:id="@+id/submit"

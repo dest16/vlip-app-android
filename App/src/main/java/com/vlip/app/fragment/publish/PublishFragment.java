@@ -3,8 +3,6 @@ package com.vlip.app.fragment.publish;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -12,15 +10,11 @@ import android.widget.TextView;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
 import com.vlip.app.activity.located.LocatedActivity;
-import com.vlip.app.bean.Car;
 import com.vlip.app.bean.Event;
 import com.vlip.app.bean.Position;
-import com.vlip.app.fragment.car.CarFragment;
-import com.vlip.app.kit.AppUtils;
-import com.vlip.kit.FastjsonUtils;
 import com.vlip.kit.ToastUtils;
-import com.vlip.ui.adapter.viewpager.BaseFragmentPagerAdapter;
 import com.vlip.ui.fragment.BaseFragment;
+import com.vlip.ui.row.RowInputEdit;
 import com.vlip.ui.row.RowSettingText;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
@@ -31,7 +25,6 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,20 +41,26 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     Toolbar mToolbar;
     @BindView(R.id.toolbarTitle)
     TextView mTitle;
-    @BindView(R.id.viewPager)
-    ViewPager mViewPager;
-    @BindView(R.id.tabLayout)
+    //    @BindView(R.id.viewPager)
+//    ViewPager mViewPager;
+//    @BindView(R.id.tabLayout)
     TabLayout mTab;
     @BindView(R.id.from)
     RowSettingText fromView;
     @BindView(R.id.to)
     RowSettingText toView;
-    BaseFragmentPagerAdapter mAdapter;
+    //    BaseFragmentPagerAdapter mAdapter;
     CityPicker mCityPicker;
+    @BindView(R.id.desc)
+    RowInputEdit descView;
+    @BindView(R.id.weight)
+    RowInputEdit weightView;
+    @BindView(R.id.amount)
+    RowInputEdit amountView;
 
-    List<Car> mCarList;
-    List<Fragment> mFragmentList;
-    List<String> mTitleList;
+//    List<Car> mCarList;
+//    List<Fragment> mFragmentList;
+//    List<String> mTitleList;
 
     private final View.OnClickListener mTitleClickListener = view -> getPresenter().selectLocatedCity(mTitle.getText().toString());
 
@@ -91,9 +90,9 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mAdapter = new BaseFragmentPagerAdapter(getChildFragmentManager());
-        mViewPager.setAdapter(mAdapter);
-        mTab.setupWithViewPager(mViewPager, true);
+//        mAdapter = new BaseFragmentPagerAdapter(getChildFragmentManager());
+//        mViewPager.setAdapter(mAdapter);
+//        mTab.setupWithViewPager(mViewPager, true);
         mCityPicker = CityPicker.from(this);
     }
 
@@ -101,19 +100,19 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     public void initData() {
         setSupportEventBus();
         getPresenter().getCurrentLocation();
-        mCarList = FastjsonUtils.toList(AppUtils.readAssetsText("cars.json"), Car.class);
+//        mCarList = FastjsonUtils.toList(AppUtils.readAssetsText("cars.json"), Car.class);
         mTitle.setOnClickListener(mTitleClickListener);
         mCityPicker.enableAnimation(true).setOnPickListener(mOnPickListener);
-        if (mViewPager != null && mCarList != null && mCarList.size() > 0) {
-            this.mTitleList = new ArrayList<>();
-            this.mFragmentList = new ArrayList<>();
-            for (Car item : this.mCarList) {
-                mTitleList.add(item.name);
-                mFragmentList.add(CarFragment.newInstance(item));
-            }
-            mAdapter.setFragment(mTitleList, mFragmentList);
-            mViewPager.setOffscreenPageLimit(mFragmentList.size());
-        }
+//        if (mViewPager != null && mCarList != null && mCarList.size() > 0) {
+//            this.mTitleList = new ArrayList<>();
+//            this.mFragmentList = new ArrayList<>();
+//            for (Car item : this.mCarList) {
+//                mTitleList.add(item.name);
+//                mFragmentList.add(CarFragment.newInstance(item));
+//            }
+//            mAdapter.setFragment(mTitleList, mFragmentList);
+//            mViewPager.setOffscreenPageLimit(mFragmentList.size());
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -182,7 +181,6 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     }
 
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -207,7 +205,15 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
             case R.id.submit:
                 Position from = (Position) fromView.getTag();
                 Position to = (Position) toView.getTag();
-                getPresenter().publishCargo(from, to, mCarList.get(mViewPager.getCurrentItem()).name);
+                String desc = descView.getText();
+                String weight = weightView.getText();
+                String amount = amountView.getText();
+                if (from == null || to == null || desc.isEmpty() || (weight.isEmpty() && amount.isEmpty())) {
+                    ToastUtils.showToast("请完善发货信息");
+                } else {
+                    getPresenter().publishCargo(from, to, desc, weight, amount);
+                }
+
                 break;
             case R.id.from:
                 Bundle a1 = new Bundle();

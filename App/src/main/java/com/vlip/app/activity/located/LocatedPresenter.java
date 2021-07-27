@@ -1,15 +1,18 @@
 package com.vlip.app.activity.located;
 
 import android.location.Location;
+import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.vlip.app.BaseApplication;
 import com.vlip.app.bean.Site;
 import com.vlip.ui.mvp.base.BasePresenter;
@@ -29,13 +32,22 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
             @Override
             public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
                 RegeocodeAddress address = regeocodeResult.getRegeocodeAddress();
-                String title;
-                if (address.getAois().size() > 0) {
-                    title = address.getAois().get(0).getAoiName();
-                } else {
-                    title = address.getPois().get(0).getTitle();
+                List<PoiItem> poiItems = address.getPois();
+                for (int j = 0; j < poiItems.size(); j++) {
+                    PoiItem item = poiItems.get(j);
+                    Log.d("poiItems", "Title=" + item.getTitle() + ",Distance=" + item.getDistance() + ",AdName=" + item.getAdName() + ",Tel" + item.getTel()
+                            + ",BusinessArea=" + item.getBusinessArea() + ",Snippet=" + item.getSnippet() + ",Direction" + item.getDirection()
+                            + ",TypeDes" + item.getTypeDes());
                 }
-                getView().updateAddress(title, address.getStreetNumber().getStreet());
+//                String title;
+//                if (address.getAois().size() > 0) {
+//                    title = address.getAois().get(0).getAoiName();
+//                } else {
+//                    title = address.getPois().get(0).getTitle();
+//                }
+                String address1 = poiItems.get(0).getTitle() + "附近";
+                String address2 = address.getFormatAddress();
+                getView().updateAddress(address1, address2);
             }
 
             @Override
@@ -44,7 +56,7 @@ public class LocatedPresenter extends BasePresenter<LocatedModel, LocatedView> {
             }
         });
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200, GeocodeSearch.AMAP);
-        query.setExtensions("all");
+        query.setExtensions(PoiSearch.EXTENSIONS_ALL);
         search.getFromLocationAsyn(query);
     }
 

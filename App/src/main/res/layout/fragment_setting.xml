@@ -13,26 +13,26 @@
         android:background="@color/colorWhite"
         app:rst_title="清理缓存"/>
 
-    <com.vlip.ui.row.RowSettingText
-        android:id="@+id/help"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:rst_title="帮助"/>
+<!--    <com.vlip.ui.row.RowSettingText-->
+<!--        android:id="@+id/help"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/colorWhite"-->
+<!--        app:rst_title="帮助"/>-->
 
-    <com.vlip.ui.row.RowSettingText
-        android:id="@+id/service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:rst_title="客户服务"/>
+<!--    <com.vlip.ui.row.RowSettingText-->
+<!--        android:id="@+id/service"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/colorWhite"-->
+<!--        app:rst_title="客户服务"/>-->
 
-    <com.vlip.ui.row.RowSettingText
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        app:rst_title="关于我们"/>
+<!--    <com.vlip.ui.row.RowSettingText-->
+<!--        android:id="@+id/about"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/colorWhite"-->
+<!--        app:rst_title="关于我们"/>-->
 
     <Button
         android:id="@+id/exit_btn"

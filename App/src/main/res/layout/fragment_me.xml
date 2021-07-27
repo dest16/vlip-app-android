@@ -120,27 +120,35 @@
 <!--            app:layout_constraintTop_toBottomOf="@id/finished_order" />-->
 
         <com.vlip.ui.row.RowSettingText
-            android:id="@+id/address_mgr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
-            app:rst_title="车辆管理" />
-
-        <com.vlip.ui.row.RowSettingText
             android:id="@+id/help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_mgr"
-            app:rst_title="帮助与客服" />
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            app:rst_title="帮助" />
+
+        <com.vlip.ui.row.RowSettingText
+            android:id="@+id/service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/help"
+            app:rst_title="客户服务" />
+
+        <com.vlip.ui.row.RowSettingText
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/service"
+            app:rst_title="关于我们" />
 
         <com.vlip.ui.row.RowSettingText
             android:id="@+id/setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/help"
+            app:layout_constraintTop_toBottomOf="@+id/about"
             app:rst_bottomLineShow="false"
             app:rst_title="设置" />
 

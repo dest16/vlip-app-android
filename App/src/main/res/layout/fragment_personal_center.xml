@@ -49,11 +49,11 @@
         app:rst_title="手机号码" />
 
     <com.vlip.ui.row.RowSettingText
-        android:id="@+id/update_mobile"
+        android:id="@+id/update_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        app:rst_title="账号安全" />
+        app:rst_title="修改密码" />
 
 
 </LinearLayout>

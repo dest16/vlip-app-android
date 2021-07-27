@@ -61,6 +61,7 @@
             <enum name="email" value="4" />
             <enum name="password" value="5" />
             <enum name="number_password" value="6" />
+            <enum name="number_decimal" value="7" />
         </attr>
         <attr name="re_bottomLineShow" format="reference|boolean" />
     </declare-styleable>
