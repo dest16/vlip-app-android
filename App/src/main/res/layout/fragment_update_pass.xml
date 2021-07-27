@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg"
+    android:orientation="vertical">
+
+
+    <com.vlip.ui.row.RowInputEdit
+        android:id="@+id/old_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:re_hint="旧密码"
+        app:re_input_type="password" />
+
+    <com.vlip.ui.row.RowInputEdit
+        android:id="@+id/new_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:re_hint="新系码"
+        app:re_input_type="password" />
+
+    <com.vlip.ui.row.RowInputEdit
+        android:id="@+id/re_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:re_hint="确认密码"
+        app:re_input_type="password" />
+
+    <Button
+        android:id="@+id/submit"
+        style="@style/AppTheme.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:text="提交" />
+
+
+</LinearLayout>
