@@ -3,6 +3,7 @@ package com.vlip.app.fragment.accept;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -28,6 +29,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class AcceptFragment extends LazyFragment<AcceptPresenter> implements AcceptView {
 
@@ -36,7 +38,8 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
+    @BindView(R.id.refresh)
+    View refresh;
     Integer mPage = 1;
     BaseRecyclerAdapter<Order2> mAdapter;
 
@@ -60,6 +63,11 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
         EventBus.getDefault().unregister(this);
     }
 
+    @OnClick({R.id.refresh})
+    public void onClick(View view){
+        refresh();
+    }
+
     @Override
     public void initData() {
         EventBus.getDefault().register(this);
@@ -71,9 +79,11 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
                 TextView time = viewHolder.findViewById(R.id.time);
                 TextView from = viewHolder.findViewById(R.id.from);
                 TextView to = viewHolder.findViewById(R.id.to);
-                sn.setText(String.format("订单编号：%s", item.orderNumber));
+                sn.setText(String.format("订单编号：%s", item.id));
+//                sn.setText(String.format("订单编号：%s", item.orderNumber));
                 type.setText(item.type);
-                time.setText(item.acceptTime.toLocaleString());
+                //接单时间有毛病，判断下空
+                if (item.acceptTime != null) time.setText(item.acceptTime.toLocaleString());
                 from.setText(item.fromSite);
                 to.setText(item.toSite);
 
@@ -197,6 +207,11 @@ public class AcceptFragment extends LazyFragment<AcceptPresenter> implements Acc
                 mRefreshLayout.finishLoadMore();
                 mAdapter.addAll(orderList);
             }
+        }
+        if (mAdapter.getData().size() == 0) {
+            refresh.setVisibility(View.VISIBLE);
+        } else {
+            refresh.setVisibility(View.GONE);
         }
     }
 

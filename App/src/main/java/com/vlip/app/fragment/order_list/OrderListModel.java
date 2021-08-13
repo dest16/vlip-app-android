@@ -18,4 +18,10 @@ public class OrderListModel extends BaseModel {
                 .subscribe(observer);
     }
 
+    void cancelOrder(Map<String, Object> params, BaseResponse observer) {
+        RetrofitManager.getInstance().mNetwrokService.cancelOrder(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

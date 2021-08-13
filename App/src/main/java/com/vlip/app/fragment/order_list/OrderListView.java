@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrderListView extends BaseView {
 
     void setOrderList(long currPage, long totalPage, List<Order2> orderList);
+    void refresh();
 }

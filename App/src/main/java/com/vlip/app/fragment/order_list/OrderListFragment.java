@@ -3,6 +3,7 @@ package com.vlip.app.fragment.order_list;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -19,6 +20,7 @@ import com.vlip.ui.activity.ToolbarFragmentActivity;
 import com.vlip.ui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.vlip.ui.adapter.recyclerview.LinearDividerItemDecoration;
 import com.vlip.ui.adapter.recyclerview.ViewHolder;
+import com.vlip.ui.dialog.CommonDialog;
 import com.vlip.ui.fragment.LazyFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,6 +41,7 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
 
     Integer mPage = 1;
     BaseRecyclerAdapter<Order2> mAdapter;
+    CommonDialog dialog;
     int status;
 
     public static OrderListFragment newInstance(int status) {
@@ -59,6 +62,9 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
         int space = DPUtils.dp2px(getResources(), 10);
         mRecyclerView.addItemDecoration(new LinearDividerItemDecoration(LinearDividerItemDecoration.VERTICAL, space, AppUtils.getColor(R.color.colorBg)));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dialog = new CommonDialog(getContext());
+        dialog.setTitle("删除订单");
+        dialog.setContent("确定要删除该订单吗？");
     }
 
     @Override
@@ -80,7 +86,8 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 TextView time = viewHolder.findViewById(R.id.time);
                 TextView from = viewHolder.findViewById(R.id.from);
                 TextView to = viewHolder.findViewById(R.id.to);
-                sn.setText(String.format("订单编号：%s", item.orderNumber));
+                sn.setText(String.format("订单编号：%s", item.id));
+//                sn.setText(String.format("订单编号：%s", item.orderNumber));
                 type.setText(item.type);
 //                time.setText(item.acceptTime.toLocaleString());
                 from.setText(item.fromSite);
@@ -88,17 +95,20 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 String timeStr = "";
                 switch (status) {
                     case 0://待接单
-                        timeStr = String.format("发布时间：%s", item.startTime.toLocaleString());
-                        EventBus.getDefault().register(this);
+                        if (item.startTime != null)
+                            timeStr = String.format("发布时间：%s", item.startTime.toLocaleString());
                         break;
                     case 1://进行中
-                        timeStr = String.format("接单时间：%s", item.acceptTime.toLocaleString());
+                        if (item.acceptTime != null)
+                            timeStr = String.format("接单时间：%s", item.acceptTime.toLocaleString());
                         break;
                     case 3:
-                        timeStr = String.format("完成时间：%s", item.finishTime.toLocaleString());
+                        if (item.finishTime != null)
+                            timeStr = String.format("完成时间：%s", item.finishTime.toLocaleString());
                         break; //已完成
                     case 4: //已取消
-                        timeStr = String.format("取消时间：%s", item.cancelTime.toLocaleString());
+                        if (item.cancelTime != null)
+                            timeStr = String.format("取消时间：%s", item.cancelTime.toLocaleString());
                         break;
                 }
                 time.setText(timeStr);
@@ -109,6 +119,17 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 Bundle b = new Bundle();
                 b.putSerializable(Constants.INTENT_KEY1, item);
                 ToolbarFragmentActivity.createFragment(requireContext(), OrderDetailFragment.class, b);
+            }
+
+            @Override
+            protected void onItemLongClick(Order2 item, int position) {
+                dialog.setOnClickSureListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getPresenter().cancelOrder(item.id);
+                    }
+                });
+                dialog.show();
             }
         };
         mRecyclerView.setAdapter(mAdapter);
@@ -222,6 +243,7 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
     public void hideLoading() {
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSubscribeEvent(Event.CancelOrdersEvent event) {
         mRefreshLayout.autoRefresh();
@@ -241,6 +263,11 @@ public class OrderListFragment extends LazyFragment<OrderListPresenter> implemen
                 mAdapter.addAll(orderList);
             }
         }
+    }
+
+    @Override
+    public void refresh() {
+        mRefreshLayout.autoRefresh();
     }
 
 }

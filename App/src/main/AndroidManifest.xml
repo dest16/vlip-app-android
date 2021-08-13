@@ -53,6 +53,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.vlip.app"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="66aa3d7723e3c614a0f9c69349f52318"/>
@@ -97,6 +108,7 @@
             android:name="com.vlip.ui.activity.ToolbarFragmentActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity android:name="com.vlip.ui.activity.ClipImageActivity"/>
     </application>
 
 </manifest>

@@ -43,6 +43,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                 String token = data.optString("token");
                 String imageUrl = data.optString("user.icon");
                 String tokenHead = data.optString("tokenHead"); //token拼接串头部
+                String id = data.optString("user.id");
                 token = tokenHead + token;
 //                JSONObject jsonMember = data.optJSONObject("member");
 //                String memberId = jsonMember.optString("id");
@@ -52,7 +53,7 @@ class LoginPresenter extends BasePresenter<LoginModel, LoginView> {
                 member.expire = expire;
                 member.token = token;
                 member.image = imageUrl;
-//                member.memberId = memberId;
+                member.memberId = id;
                 member.mobile = mobile;
                 member.role = role;
 //                member.sn = sn;

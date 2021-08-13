@@ -13,6 +13,7 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.vlip.app.Constants;
 import com.vlip.app.R;
 import com.vlip.app.bean.Order2;
+import com.vlip.ui.dialog.CommonDialog;
 import com.vlip.ui.fragment.BaseFragment;
 import com.vlip.ui.row.RowSettingText;
 
@@ -32,6 +33,7 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
     RowSettingText toView;
     @BindView(R.id.cancel)
     View cancelView;
+    CommonDialog dialog;
 
     private AMap mAmap;
     private Order2 mOrder;
@@ -49,7 +51,9 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
         mAmap.getUiSettings().setZoomControlsEnabled(false);
         mAmap.getUiSettings().setTiltGesturesEnabled(false);
         mAmap.getUiSettings().setRotateGesturesEnabled(false);
-
+        dialog = new CommonDialog(getContext());
+        dialog.setTitle("删除订单");
+        dialog.setContent("确定要删除该订单吗？");
     }
 
     @Override
@@ -110,7 +114,13 @@ public class OrderDetailFragment extends BaseFragment<OrderDetailPresenter> impl
                 getPresenter().acceptOrder(mOrder.id);
                 break;
             case R.id.cancel:
-                getPresenter().cancelOrder(mOrder.id);
+                dialog.setOnClickSureListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getPresenter().cancelOrder(mOrder.id);
+                    }
+                });
+                dialog.show();
                 break;
         }
 

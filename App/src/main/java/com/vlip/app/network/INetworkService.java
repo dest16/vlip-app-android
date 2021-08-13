@@ -44,6 +44,9 @@ public interface INetworkService {
 
     @POST("admin/updatePassword")
     Observable<ResultBean> updatePassword(@QueryMap Map<String, Object> params);
+
+    @POST("/admin/updateUserIcon")
+    Observable<ResultBean> updateHeader(@Body Map<String, Object> params);
    /**********************************************************************************/
     @GET("queryTreeCategory")
     Observable<ResultBean> queryTreeCategory(@QueryMap Map<String, Object> params);
